@@ -1,5 +1,7 @@
 package org.openmrs.module.openhmis.workorder.api.model;
 
+import java.util.List;
+
 import org.openmrs.BaseCustomizableMetadata;
 import org.openmrs.User;
 import org.openmrs.customdatatype.Customizable;
@@ -10,6 +12,7 @@ public class WorkOrder extends BaseCustomizableMetadata<WorkOrderAttribute> impl
 	private Integer workOrderId;
 	private WorkOrderStatus status;
 	private User assignedTo;
+	private IWorkOrder parentOrder;
 	
 	/** Getters & setters **/
 	@Override
@@ -40,5 +43,20 @@ public class WorkOrder extends BaseCustomizableMetadata<WorkOrderAttribute> impl
 	@Override
 	public void setAssignedTo(User user) {
 		this.assignedTo = user;
+	}
+
+	@Override
+	public List<IWorkOrder> getChildOrders() {
+		return null;
+	}
+
+	@Override
+	public IWorkOrder getParentOrder() {
+		return parentOrder;
+	}
+
+	@Override
+	public void setParentOrder(IWorkOrder parent) {
+		parentOrder = parent;
 	}
 }

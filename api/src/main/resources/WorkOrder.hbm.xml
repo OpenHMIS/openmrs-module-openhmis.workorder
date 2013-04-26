@@ -104,4 +104,16 @@
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 	</class>
 
+	<class name="WorkOrderList" table="workorder_workorder_list">
+		<id name="id" type="int" column="workorder_list_id">
+			<generator class="native">
+				<param name="sequence">workorder_workorder_list_workorder_list_id_seq</param>
+			</generator>
+		</id>
+		<discriminator column="workorder_list_id" insert="false" />
+
+		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
+	</class>
+
+
 </hibernate-mapping>
