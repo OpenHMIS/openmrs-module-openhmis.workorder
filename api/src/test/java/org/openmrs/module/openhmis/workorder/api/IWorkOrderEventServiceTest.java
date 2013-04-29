@@ -6,18 +6,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
-import org.openmrs.module.openhmis.workorder.api.util.IWorkOrderAction;
+import org.openmrs.module.openhmis.workorder.api.util.WorkOrderAction;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 
 	private IWorkOrderEventService eventService;
 	
-	private class ActionTester implements IWorkOrderAction {
+	private class ActionTester implements WorkOrderAction {
 		private Object testValue = null;
 		public Object getTestValue() { return testValue; }
 		public void setTestValue(Object value) { testValue = value; }
-		public void apply(IWorkOrder workOrder) {
+		public void apply(WorkOrder workOrder) {
 			setTestValue(workOrder);
 		}
 	}
@@ -35,7 +35,7 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 	public void fireStatusChanged_shouldFireRegisteredHandlers() throws Exception {
 		ActionTester testAction = new ActionTester();
 		eventService.registerWorkOrderStatusHandler(testAction);
-		IWorkOrder workOrder = new WorkOrder();
+		WorkOrder workOrder = new WorkOrder();
 		eventService.fireStatusChanged(workOrder);
 		Assert.assertEquals(workOrder, testAction.getTestValue());
 	}
@@ -49,7 +49,7 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 		ActionTester testAction = new ActionTester();
 		eventService.registerWorkOrderStatusHandler(testAction);
 		eventService.unregisterWorkOrderStatusHandler(testAction);
-		IWorkOrder workOrder = new WorkOrder();
+		WorkOrder workOrder = new WorkOrder();
 		eventService.fireStatusChanged(workOrder);
 		Assert.assertNull(testAction.getTestValue());		
 	}

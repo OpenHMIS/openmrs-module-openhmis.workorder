@@ -13,6 +13,15 @@
 		</id>
 		<discriminator column="workorder_id" insert="false" />
 
+		<!-- Access the Parent through the field because the parent property updates the children and will
+		    cause problems when executed while hibernate is loading the model. -->
+		<many-to-one name="parentWorkOrder" class="WorkOrder" column="parent_id"  access="field" />
+		<list name="workOrders" lazy="false" inverse="true" batch-size="100"
+		     cascade="all-delete-orphan">
+			<key column="parent_id" />
+			<list-index column="line_item_order" />
+			<one-to-many class="WorkOrder" />
+		</list>
 		<property name="name" type="java.lang.String" column="name" not-null="true" length="255" />
 		<property name="description" type="java.lang.String" column="description" length="1024" />
 		<property name="status" not-null="true" column="status">
@@ -103,17 +112,5 @@
 
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 	</class>
-
-	<class name="WorkOrderList" table="workorder_workorder_list">
-		<id name="id" type="int" column="workorder_list_id">
-			<generator class="native">
-				<param name="sequence">workorder_workorder_list_workorder_list_id_seq</param>
-			</generator>
-		</id>
-		<discriminator column="workorder_list_id" insert="false" />
-
-		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
-	</class>
-
 
 </hibernate-mapping>

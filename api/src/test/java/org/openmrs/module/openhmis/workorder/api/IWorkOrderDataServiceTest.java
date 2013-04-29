@@ -33,7 +33,7 @@ public class IWorkOrderDataServiceTest extends IMetadataDataServiceTest<IWorkOrd
 	protected void updateEntityFields(WorkOrder entity) {
 		entity.setName(entity.getName() + " updated");
 		entity.setDescription(entity.getDescription() + " updated");
-		entity.setStatus(entity.getStatus() == WorkOrderStatus.CANCELLED ? WorkOrderStatus.NEW : WorkOrderStatus.CANCELLED);
+		entity.setStatus(entity.getStatus() == WorkOrderStatus.IN_PROGRESS ? WorkOrderStatus.NEW : WorkOrderStatus.IN_PROGRESS);
 	}
 
 	@Override

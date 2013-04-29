@@ -8,13 +8,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrder;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderEventService;
-import org.openmrs.module.openhmis.workorder.api.util.IWorkOrderAction;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
+import org.openmrs.module.openhmis.workorder.api.util.WorkOrderAction;
 
 public class WorkOrderEventServiceImpl extends BaseOpenmrsService implements IWorkOrderEventService {
 	
-	private static Map<String, Set<IWorkOrderAction>> statusHandlers = new HashMap<String, Set<IWorkOrderAction>>();
+	private static Map<String, Set<WorkOrderAction>> statusHandlers = new HashMap<String, Set<WorkOrderAction>>();
 	
 	private static final Pattern moduleIdPattern = Pattern.compile("org\\.openmrs\\.module\\.([a-z\\.]*)\\.(.*)");
 
@@ -32,45 +32,45 @@ public class WorkOrderEventServiceImpl extends BaseOpenmrsService implements IWo
 }
 	
 	@Override
-	public void registerWorkOrderStatusHandler(IWorkOrderAction action) {
+	public void registerWorkOrderStatusHandler(WorkOrderAction action) {
 		registerWorkOrderStatusHandler(parseModuleIdFromClass(action.getClass()), action);
 	}
 
 	@Override
-	public void registerWorkOrderStatusHandler(String moduleId, IWorkOrderAction action) {
+	public void registerWorkOrderStatusHandler(String moduleId, WorkOrderAction action) {
 		registerHandler(statusHandlers, moduleId, action);
 	}
 	
 	@Override
-	public void unregisterWorkOrderStatusHandler(IWorkOrderAction action) {
+	public void unregisterWorkOrderStatusHandler(WorkOrderAction action) {
 		unregisterWorkOrderStatusHandler(parseModuleIdFromClass(action.getClass()), action);
 	}
 
 	@Override
-	public void unregisterWorkOrderStatusHandler(String moduleId, IWorkOrderAction action) {
+	public void unregisterWorkOrderStatusHandler(String moduleId, WorkOrderAction action) {
 		unregisterHandler(statusHandlers, moduleId, action);
 	}
 	
-	public void fireStatusChanged(IWorkOrder workOrder) {
+	public void fireStatusChanged(WorkOrder workOrder) {
 		fireHandlers(statusHandlers, workOrder);
 	}
 	
-	private static void registerHandler(Map<String, Set<IWorkOrderAction>> handlerMap, String moduleId, IWorkOrderAction action) {
+	private static void registerHandler(Map<String, Set<WorkOrderAction>> handlerMap, String moduleId, WorkOrderAction action) {
 		if (handlerMap.get(moduleId) == null)
-			handlerMap.put(moduleId, new HashSet<IWorkOrderAction>());
+			handlerMap.put(moduleId, new HashSet<WorkOrderAction>());
 		handlerMap.get(moduleId).add(action);		
 	}
 
-	private static boolean unregisterHandler(Map<String, Set<IWorkOrderAction>> handlerMap, String moduleId, IWorkOrderAction action) {
-		Set<IWorkOrderAction> handlerSet = handlerMap.get(moduleId);
+	private static boolean unregisterHandler(Map<String, Set<WorkOrderAction>> handlerMap, String moduleId, WorkOrderAction action) {
+		Set<WorkOrderAction> handlerSet = handlerMap.get(moduleId);
 		if (handlerSet == null)
 			return false;
 		return handlerSet.remove(action);
 	}
 	
-	private static void fireHandlers(Map<String, Set<IWorkOrderAction>> handlerMap, IWorkOrder workOrder) {
-		for (Set<IWorkOrderAction> set : handlerMap.values()) {
-			for (IWorkOrderAction action : set) {
+	private static void fireHandlers(Map<String, Set<WorkOrderAction>> handlerMap, WorkOrder workOrder) {
+		for (Set<WorkOrderAction> set : handlerMap.values()) {
+			for (WorkOrderAction action : set) {
 				action.apply(workOrder);
 			}
 		}
