@@ -9,13 +9,14 @@ import org.openmrs.BaseCustomizableMetadata;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.Customizable;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 
 public class WorkOrder extends BaseCustomizableMetadata<WorkOrderAttribute>
 	implements Customizable<WorkOrderAttribute>, Attributable<WorkOrder> {
 
 	private Integer workOrderId;
-	private WorkOrderStatus status;
+	private WorkOrderStatus status = WorkOrderStatus.NEW;
 	private User assignedTo;
 	private WorkOrder parentWorkOrder = null;
 	private List<WorkOrder> workOrders;
@@ -62,6 +63,10 @@ public class WorkOrder extends BaseCustomizableMetadata<WorkOrderAttribute>
 		return "WorkOrderList " + getId();
 	}
 
+	public List<WorkOrderAttribute> getActiveAttributesByType(Class<?> cls) {
+		return this.getActiveAttributes(Context.getService(IWorkOrderAttributeTypeDataService.class)
+				.getByDatatypeClassname(cls.getCanonicalName()));
+	}
 	
 	/** Getters & setters **/
 	@Override

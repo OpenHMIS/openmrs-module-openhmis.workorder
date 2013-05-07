@@ -19,5 +19,12 @@
 <hibernate-configuration>
 	<session-factory>
 		<mapping resource="WorkOrder.hbm.xml" />
+
+		<event type="pre-insert">
+			<listener class="org.openmrs.module.openhmis.workorder.api.event.ChangeEventListener" />
+		</event>
+		<event type="pre-update">
+			<listener class="org.openmrs.module.openhmis.workorder.api.event.ChangeEventListener"  />
+		</event>
 	</session-factory>
 </hibernate-configuration>

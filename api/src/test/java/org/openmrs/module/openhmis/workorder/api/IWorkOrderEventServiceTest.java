@@ -5,22 +5,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.openhmis.workorder.api.event.StatusActionTester;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
-import org.openmrs.module.openhmis.workorder.api.util.WorkOrderAction;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 
 	private IWorkOrderEventService eventService;
-	
-	private class ActionTester implements WorkOrderAction {
-		private Object testValue = null;
-		public Object getTestValue() { return testValue; }
-		public void setTestValue(Object value) { testValue = value; }
-		public void apply(WorkOrder workOrder) {
-			setTestValue(workOrder);
-		}
-	}
 
 	@Before
 	public void before() {
@@ -33,11 +25,11 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	public void fireStatusChanged_shouldFireRegisteredHandlers() throws Exception {
-		ActionTester testAction = new ActionTester();
+		StatusActionTester testAction = new StatusActionTester();
 		eventService.registerWorkOrderStatusHandler(testAction);
 		WorkOrder workOrder = new WorkOrder();
-		eventService.fireStatusChanged(workOrder);
-		Assert.assertEquals(workOrder, testAction.getTestValue());
+		eventService.fireStatusChanged(workOrder, WorkOrderStatus.NEW);
+		Assert.assertEquals(WorkOrderStatus.NEW, testAction.getTestValue());
 	}
 
 	/**
@@ -46,11 +38,11 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	public void fireStatusChanged_shouldNotFireUnregisteredHandlers() throws Exception {
-		ActionTester testAction = new ActionTester();
+		StatusActionTester testAction = new StatusActionTester();
 		eventService.registerWorkOrderStatusHandler(testAction);
 		eventService.unregisterWorkOrderStatusHandler(testAction);
 		WorkOrder workOrder = new WorkOrder();
-		eventService.fireStatusChanged(workOrder);
+		eventService.fireStatusChanged(workOrder, WorkOrderStatus.NEW);
 		Assert.assertNull(testAction.getTestValue());		
 	}
 }

@@ -1,15 +1,17 @@
 package org.openmrs.module.openhmis.workorder.api;
 
+import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
-import org.openmrs.module.openhmis.workorder.api.util.WorkOrderAction;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
+import org.openmrs.module.openhmis.workorder.api.util.WorkOrderStatusAction;
 
-public interface IWorkOrderEventService {
+public interface IWorkOrderEventService extends OpenmrsService {
 
-	public void registerWorkOrderStatusHandler(WorkOrderAction action);
-	public void registerWorkOrderStatusHandler(String moduleId, WorkOrderAction action);
+	public void registerWorkOrderStatusHandler(WorkOrderStatusAction action);
+	public void registerWorkOrderStatusHandler(String moduleId, WorkOrderStatusAction action);
 
-	public void unregisterWorkOrderStatusHandler(WorkOrderAction action);
-	public void unregisterWorkOrderStatusHandler(String moduleId, WorkOrderAction action);
+	public void unregisterWorkOrderStatusHandler(WorkOrderStatusAction action);
+	public void unregisterWorkOrderStatusHandler(String moduleId, WorkOrderStatusAction action);
 
 	/**
 	 * Fire actions registered for work order status change
@@ -17,5 +19,5 @@ public interface IWorkOrderEventService {
 	 * @should fire registered handlers
 	 * @should not fire unregistered handlers
 	 */
-	public void fireStatusChanged(WorkOrder workOrder);
+	public void fireStatusChanged(WorkOrder workOrder, WorkOrderStatus previousStatus);
 }

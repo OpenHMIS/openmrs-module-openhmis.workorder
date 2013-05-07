@@ -3,7 +3,15 @@
   "-//Hibernate/Hibernate Configuration DTD//EN"
   "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-	  <mapping file="WorkOrder.hbm.xml" />
-  </session-factory>
+	<session-factory>
+		<mapping file="WorkOrder.hbm.xml" />
+		
+		<event type="pre-insert">
+			<listener class="org.openmrs.module.openhmis.workorder.api.event.ChangeEventListener" />
+		</event>
+		<event type="pre-update">
+			<listener class="org.openmrs.module.openhmis.workorder.api.event.ChangeEventListener"  />
+		</event>
+		
+	</session-factory>
 </hibernate-configuration>
