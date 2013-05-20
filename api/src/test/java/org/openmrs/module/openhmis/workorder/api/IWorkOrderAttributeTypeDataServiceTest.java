@@ -29,7 +29,7 @@ public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSen
 		Integer locationId = 0;
 		Location location = new Location(locationId);
 		WorkOrderAttribute attribute = service.convertToAttribute(location);
-		Assert.assertEquals(locationId.toString(), attribute.getValueReference());
+		Assert.assertEquals(locationId.toString(), attribute.getValue());
 	}
 
 	/**

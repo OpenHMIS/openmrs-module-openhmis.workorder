@@ -31,23 +31,23 @@ public class WorkOrderAttributeTypeDataServiceImpl extends
 		if (value == null) throw new IllegalArgumentException("Value cannot be null.");
 		String className = value.getClass().getCanonicalName();
 		WorkOrderAttribute attribute = new WorkOrderAttribute();
-		attribute.setAttributeType(getByDatatypeClassname(className));
-		attribute.setValueReferenceInternal(value.serialize());
+		attribute.setAttributeType(getByFormat(className));
+		attribute.setValue(value.serialize());
 		return attribute;
 	}
 
 	@Override
-	public WorkOrderAttributeType getByDatatypeClassname(final String datatypeClassname) {
+	public WorkOrderAttributeType getByFormat(final String format) {
 		List<WorkOrderAttributeType> types = executeCriteria(getEntityClass(), null, new Action1<Criteria>() {
 			@Override
 			public void apply(Criteria criteria) {
-				criteria.add(Restrictions.eq("datatypeClassname", datatypeClassname));
+				criteria.add(Restrictions.eq("format", format));
 				criteria.add(Restrictions.eq("retired", false));
 			}
 		});
 		if (types.size() == 1)
 			return types.get(0);
 		else
-			throw new APIException("Couldn't find a WorkOrderAttributeType for " + datatypeClassname);
+			throw new APIException("Couldn't find a WorkOrderAttributeType for " + format);
 	}
 }

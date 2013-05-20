@@ -21,5 +21,5 @@ public interface IWorkOrderAttributeTypeDataService
 	 */
 	public <T extends Attributable<?>> WorkOrderAttribute convertToAttribute(T value);
 	
-	public WorkOrderAttributeType getByDatatypeClassname(String datatypeClassname);
+	public WorkOrderAttributeType getByFormat(String datatypeClassname);
 }

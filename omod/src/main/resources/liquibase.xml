@@ -11,8 +11,10 @@
 
 			<column name="name" type="varchar(255)" defaultValue="" ><constraints nullable="false"/></column>
 			<column name="description" type="varchar(1024)" defaultValue=""/>
+			<column name="parent_id" type="int" />
+			<column name="assigned_to" type="int" />
+
 			<column name="status" type="varchar(50)"><constraints nullable="false" /></column>
-			<column name="related_object_id" type="int"><constraints nullable="false"/></column>
 
 			<column name="workorder_type_id" type="int"><constraints nullable="false" /></column>
 
@@ -27,7 +29,33 @@
 			<column name="uuid" type="char(38)"><constraints nullable="false" unique="true" /></column>
 		</createTable>
 
+		<createTable tableName="workorder_workorder_attribute">
+			<column name="workorder_attribute_id" autoIncrement="true" type="int">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+
+			<column name="name" type="varchar(255)" defaultValue="" ><constraints nullable="false"/></column>
+			<column name="description" type="varchar(1024)" defaultValue=""/>
+			<column name="attribute_type_id" type="int"><constraints nullable="false"/></column>
+			<column name="workorder_id" type="int"><constraints nullable="false"/></column>
+			<column name="value" type="varchar(255)"/>
+
+			<column name="creator" type="int" defaultValueNumeric="0" ><constraints nullable="false"/></column>
+			<column name="date_created" type="DATETIME"><constraints nullable="false"/></column>
+			<column name="changed_by" type="int"/>
+			<column name="date_changed" type="DATETIME"/>
+			<column defaultValueBoolean="false" name="retired" type="BOOLEAN"><constraints nullable="false"/></column>
+			<column name="retired_by" type="int"/>
+			<column name="date_retired" type="DATETIME"/>
+			<column name="retire_reason" type="varchar(255)"/>
+			<column name="uuid" type="char(38)"><constraints nullable="false" unique="true" /></column>			
+		</createTable>
+
 		<createTable tableName="workorder_workorder_type">
+			<column name="workorder_type_id" autoIncrement="true" type="int">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+		
 			<column name="name" type="varchar(255)" defaultValue="" ><constraints nullable="false"/></column>
 			<column name="description" type="varchar(1024)" defaultValue=""/>
 			<column name="format" type="varchar(255)"><constraints nullable="false"/></column>
@@ -42,5 +70,111 @@
 			<column name="retire_reason" type="varchar(255)"/>
 			<column name="uuid" type="char(38)"><constraints nullable="false" unique="true" /></column>
 		</createTable>
+		
+		<createTable tableName="workorder_workorder_attribute_type">
+			<column name="workorder_attribute_type_id" autoIncrement="true" type="int">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			
+			<column name="name" type="varchar(255)" defaultValue="" ><constraints nullable="false"/></column>
+			<column name="description" type="varchar(1024)" defaultValue=""/>
+			<column name="format" type="varchar(255)"><constraints nullable="false"/></column>
+			<column name="foreign_key" type="int"/>
+			<column name="reg_exp" type="varchar(255)"/>
+			<column name="required" defaultValueBoolean="false" type="BOOLEAN"><constraints nullable="false"/></column>
+
+			<column name="workorder_type_id" type="int"><constraints nullable="false"/></column>
+		
+			<column name="creator" type="int" defaultValueNumeric="0" ><constraints nullable="false"/></column>
+			<column name="date_created" type="DATETIME"><constraints nullable="false"/></column>
+			<column name="changed_by" type="int"/>
+			<column name="date_changed" type="DATETIME"/>
+			<column defaultValueBoolean="false" name="retired" type="BOOLEAN"><constraints nullable="false"/></column>
+			<column name="retired_by" type="int"/>
+			<column name="date_retired" type="DATETIME"/>
+			<column name="retire_reason" type="varchar(255)"/>
+			<column name="uuid" type="char(38)"><constraints nullable="false" unique="true" /></column>
+		</createTable>
+		
+		<createIndex indexName="workorder_workorder_attribute_type_format_idx" tableName="workorder_workorder_attribute_type" unique="true">
+			<column name="format"/>
+		</createIndex>
+		
+		<addForeignKeyConstraint constraintName="workorder_workorder_parent_fk"
+                                 baseTableName="workorder_workorder" baseColumnNames="parent_id"
+                                 referencedTableName="workorder_workorder" referencedColumnNames="workorder_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_assigned_to_fk"
+                                 baseTableName="workorder_workorder" baseColumnNames="assigned_to"
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_workorder_type_fk"
+                                 baseTableName="workorder_workorder" baseColumnNames="workorder_type_id"
+                                 referencedTableName="workorder_workorder_type" referencedColumnNames="workorder_type_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_creator_fk"
+                                 baseTableName="workorder_workorder" baseColumnNames="creator"
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_changed_by_fk"
+		                         baseTableName="workorder_workorder" baseColumnNames="changed_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_retired_by_fk"
+		                         baseTableName="workorder_workorder" baseColumnNames="retired_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_attribute_type_fk"
+                                 baseTableName="workorder_workorder_attribute" baseColumnNames="attribute_type_id"
+                                 referencedTableName="workorder_workorder_attribute_type" referencedColumnNames="workorder_attribute_type_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_workorder_fk"
+                                 baseTableName="workorder_workorder_attribute" baseColumnNames="workorder_id"
+                                 referencedTableName="workorder_workorder" referencedColumnNames="workorder_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_creator_fk"
+                                 baseTableName="workorder_workorder" baseColumnNames="creator"
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_changed_by_fk"
+		                         baseTableName="workorder_workorder" baseColumnNames="changed_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_retired_by_fk"
+		                         baseTableName="workorder_workorder" baseColumnNames="retired_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		
+		<addForeignKeyConstraint constraintName="workorder_workorder_type_creator_fk"
+                                 baseTableName="workorder_workorder_type" baseColumnNames="creator"
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_type_changed_by_fk"
+		                         baseTableName="workorder_workorder_type" baseColumnNames="changed_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_type_retired_by_fk"
+		                         baseTableName="workorder_workorder_type" baseColumnNames="retired_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		                         
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_type_workorder_type_fk"
+                                 baseTableName="workorder_workorder_attribute_type" baseColumnNames="workorder_type_id"
+                                 referencedTableName="workorder_workorder_type" referencedColumnNames="workorder_type_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_type_creator_fk"
+                                 baseTableName="workorder_workorder_attribute_type" baseColumnNames="creator"
+                                 referencedTableName="users" referencedColumnNames="user_id"
+                                 deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_type_changed_by_fk"
+		                         baseTableName="workorder_workorder_attribute_type" baseColumnNames="changed_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		<addForeignKeyConstraint constraintName="workorder_workorder_attribute_type_retired_by_fk"
+		                         baseTableName="workorder_workorder_attribute_type" baseColumnNames="retired_by"
+		                         referencedTableName="users" referencedColumnNames="user_id"
+		                         deferrable="false" initiallyDeferred="false" />
+		                         
 	</changeSet>
 </databaseChangeLog>

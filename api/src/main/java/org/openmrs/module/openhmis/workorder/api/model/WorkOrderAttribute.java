@@ -1,10 +1,10 @@
 package org.openmrs.module.openhmis.workorder.api.model;
 
-import org.openmrs.attribute.Attribute;
-import org.openmrs.module.openhmis.commons.attribute.HydrateableAttribute;
+import org.openmrs.module.openhmis.commons.api.entity.model.BaseMetadataInstanceAttribute;
+import org.openmrs.module.openhmis.commons.attribute.AttributeUtil;
 
 
-public class WorkOrderAttribute extends HydrateableAttribute<WorkOrderAttributeType, WorkOrder> implements Attribute<WorkOrderAttributeType, WorkOrder> {
+public class WorkOrderAttribute extends BaseMetadataInstanceAttribute<WorkOrder, WorkOrderAttributeType> {
 
 	private Integer workOrderAttributeId;
 	
@@ -16,5 +16,9 @@ public class WorkOrderAttribute extends HydrateableAttribute<WorkOrderAttributeT
 	@Override
 	public void setId(Integer id) {
 		workOrderAttributeId = id;
+	}
+	
+	public Object getHydratedValue() {
+		return AttributeUtil.tryToHydrateObject(getAttributeType().getFormat(), getValue());
 	}
 }

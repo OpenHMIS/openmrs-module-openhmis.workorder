@@ -31,6 +31,6 @@ public class WorkOrderTest extends BaseModuleContextSensitiveTest {
 		Collection<WorkOrderAttribute> attributes = workOrder.getAttributes();
 		WorkOrderAttribute[] array = new WorkOrderAttribute[attributes.size()];
 		attributes.toArray(array);
-		Assert.assertTrue(array[0].getValue() instanceof Location);
+		Assert.assertTrue(array[0].getHydratedValue() instanceof Location);
 	}
 }

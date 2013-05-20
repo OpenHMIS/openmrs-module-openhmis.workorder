@@ -2,18 +2,15 @@ package org.openmrs.module.openhmis.workorder.api.model;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.commons.lang.NotImplementedException;
 import org.openmrs.Attributable;
-import org.openmrs.BaseCustomizableMetadata;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
-import org.openmrs.customdatatype.Customizable;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
+import org.openmrs.module.openhmis.commons.api.entity.model.BaseCustomizableInstanceMetadata;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 
-public class WorkOrder extends BaseCustomizableMetadata<WorkOrderAttribute>
-	implements Customizable<WorkOrderAttribute>, Attributable<WorkOrder> {
+public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribute>
+	implements Attributable<WorkOrder> {
 
 	private Integer workOrderId;
 	private WorkOrderStatus status = WorkOrderStatus.NEW;
@@ -61,11 +58,6 @@ public class WorkOrder extends BaseCustomizableMetadata<WorkOrderAttribute>
 	@Override
 	public String getDisplayString() {
 		return "WorkOrderList " + getId();
-	}
-
-	public List<WorkOrderAttribute> getActiveAttributesByType(Class<?> cls) {
-		return this.getActiveAttributes(Context.getService(IWorkOrderAttributeTypeDataService.class)
-				.getByDatatypeClassname(cls.getCanonicalName()));
 	}
 	
 	/** Getters & setters **/

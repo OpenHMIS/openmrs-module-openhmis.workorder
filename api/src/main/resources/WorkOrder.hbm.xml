@@ -34,7 +34,7 @@
 		<!-- Associations -->
 		<many-to-one name="assignedTo" class="org.openmrs.User" column="assigned_to" />
 		<set name="attributes" lazy="true" inverse="true" batch-size="100"
-		     cascade="all-delete-orphan" order-by="voided asc">
+		     cascade="all-delete-orphan" order-by="retired asc">
 			<key column="workorder_id" />
 			<one-to-many class="WorkOrderAttribute" />
 		</set>
@@ -62,23 +62,45 @@
 		<discriminator column="workorder_attribute_id" insert="false" />
 
 		<many-to-one name="owner" class="WorkOrder" not-null="true" column="workorder_id" />
-
-		<many-to-one name="attributeType" class="WorkOrderAttributeType" not-null="true" column="workorder_attribute_type_id" />
-
-		<property name="valueReference" type="text" not-null="true" access="field" column="value_reference" length="65535" />
+		<many-to-one name="attributeType" class="WorkOrderAttributeType" not-null="true" column="attribute_type_id" />
+		<property name="value" type="text" not-null="true" column="value" length="65535" />
 
 		<many-to-one name="creator" class="org.openmrs.User" not-null="true" column="creator" />
 		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
 
 		<many-to-one name="changedBy" class="org.openmrs.User" column="changed_by" />
 		<property name="dateChanged" type="java.util.Date" column="date_changed" length="19" />
+		<many-to-one name="retiredBy" class="org.openmrs.User" column="retired_by" />
+		<property name="dateRetired" type="java.util.Date" column="date_retired" length="19" />
+		<property name="retireReason" type="java.lang.String" column="retire_reason" length="255" />
+		<property name="retired" type="boolean" column="retired" length="1" not-null="true" />
+		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
+	</class>
+	
+	<class name="WorkOrderType" table="workorder_workorder_type">
+		<id name="id" type="int" column="workorder_type_id">
+			<generator class="native">
+				<param name="sequence">workorder_workorder_type_workorder_type_id_seq</param>
+			</generator>
+		</id>
+		<discriminator column="workorder_type_id" insert="false" />
 
-		<property name="voided" type="java.lang.Boolean" column="voided" length="1" not-null="true" />
-		<many-to-one name="voidedBy" class="org.openmrs.User" column="voided_by" />
+		<set name="attributeTypes" lazy="true" inverse="true" batch-size="100"
+		     cascade="all-delete-orphan" order-by="voided asc">
+			<key column="workorder_attribute_type_id" />
+			<one-to-many class="WorkOrderAttributeType" />
+		</set>
 
-		<property name="dateVoided" type="java.util.Date" column="date_voided" length="19" />
-		<property name="voidReason" type="java.lang.String" column="void_reason" length="255" />
-
+		<property name="name" type="java.lang.String" column="name" not-null="true" length="255" />
+		<property name="description" type="java.lang.String" column="description" length="1024" />
+		<many-to-one name="creator" class="org.openmrs.User" not-null="true" column="creator" />
+		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
+		<many-to-one name="changedBy" class="org.openmrs.User" column="changed_by" />
+		<property name="dateChanged" type="java.util.Date" column="date_changed" length="19" />
+		<property name="retired" type="java.lang.Boolean" column="retired" length="1" not-null="true" />
+		<many-to-one name="retiredBy" class="org.openmrs.User" column="retired_by" />
+		<property name="dateRetired" type="java.util.Date" column="date_retired" length="19" />
+		<property name="retireReason" type="java.lang.String" column="retire_reason" length="255" />
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 	</class>
 	
@@ -90,27 +112,26 @@
 		</id>
 		<discriminator column="workorder_attribute_type_id" insert="false" />
 
+		<many-to-one name="owner" class="WorkOrderType" not-null="true" column="workorder_type_id" />
+
 		<property name="name" type="java.lang.String" column="name" not-null="true" length="255" />
 		<property name="description" type="java.lang.String" column="description" length="1024" />
-		<property name="datatypeClassname" type="java.lang.String" column="datatype" length="255" />
-		<property name="datatypeConfig" type="text" column="datatype_config" length="65535" />
-		<property name="preferredHandlerClassname" type="java.lang.String" column="preferred_handler" length="255" />
-		<property name="handlerConfig" type="text" column="handler_config" length="65535" />
-		<property name="minOccurs" type="int" column="min_occurs" length="11" not-null="true" />
-		<property name="maxOccurs" type="int" column="max_occurs" length="11" />
+		<property name="format" type="java.lang.String" column="format" length="255" />
+		<property name="foreignKey" type="int" column="foreign_key" />
+		<property name="regExp" type="java.lang.String" column="reg_exp" length="255" />
+		<property name="required" type="java.lang.Boolean" column="required" length="1" not-null="true" />
 
 		<many-to-one name="creator" class="org.openmrs.User" not-null="true" column="creator" />
 		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
-
 		<many-to-one name="changedBy" class="org.openmrs.User" column="changed_by" />
 		<property name="dateChanged" type="java.util.Date" column="date_changed" length="19" />
-
 		<property name="retired" type="java.lang.Boolean" column="retired" length="1" not-null="true" />
 		<many-to-one name="retiredBy" class="org.openmrs.User" column="retired_by" />
 		<property name="dateRetired" type="java.util.Date" column="date_retired" length="19" />
 		<property name="retireReason" type="java.lang.String" column="retire_reason" length="255" />
-
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 	</class>
+
+
 
 </hibernate-mapping>

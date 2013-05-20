@@ -1,9 +1,11 @@
 <dataset>
 	<workorder_workorder workorder_id="0" name="Test order" description="test description" status="NEW" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
 	
+	<workorder_workorder_type workorder_type_id="0" name="Test Type" description="Fake type" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
+
 	<workorder_workorder_attribute_type workorder_attribute_type_id="0" name="Drug Order" description="Drug order attribute"
-		datatype="org.openmrs.Location" min_occurs="0" max_occurs="1" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
+		workorder_type_id="0" format="org.openmrs.Location" required="0" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
 	
 	<workorder_workorder_attribute workorder_attribute_id="0" workorder_id="0" workorder_attribute_type_id="0"
-	value_reference="0" creator="1" date_created="2012-01-01 00:00:00.0" voided="false" uuid="4028814B399565AA013995675A7E0001"/>
+	value="0" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001"/>
 </dataset>

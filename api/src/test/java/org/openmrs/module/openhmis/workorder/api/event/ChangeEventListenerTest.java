@@ -1,9 +1,7 @@
 package org.openmrs.module.openhmis.workorder.api.event;
 
-
 import java.util.Date;
 
-import org.hibernate.FlushMode;
 import org.hibernate.SessionFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +29,6 @@ public class ChangeEventListenerTest extends BaseModuleContextSensitiveTest {
 	
 	@Before
 	public void before() throws Exception {
-		sessionFactory.getCurrentSession().setFlushMode(FlushMode.ALWAYS);
 		executeDataSet(TestConstants.WORKORDER_DATASET);
 		dataService = Context.getService(IWorkOrderDataService.class);
 		eventService = Context.getService(IWorkOrderEventService.class);
