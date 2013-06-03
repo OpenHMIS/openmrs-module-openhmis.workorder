@@ -17,6 +17,7 @@
 			<column name="status" type="varchar(50)"><constraints nullable="false" /></column>
 
 			<column name="workorder_type_id" type="int"><constraints nullable="false" /></column>
+			<column name="item_order" type="int" defaultValueNumeric="0" ><constraints nullable="false"/></column>
 
 			<column name="creator" type="int" defaultValueNumeric="0" ><constraints nullable="false"/></column>
 			<column name="date_created" type="DATETIME"><constraints nullable="false"/></column>
@@ -58,7 +59,6 @@
 		
 			<column name="name" type="varchar(255)" defaultValue="" ><constraints nullable="false"/></column>
 			<column name="description" type="varchar(1024)" defaultValue=""/>
-			<column name="format" type="varchar(255)"><constraints nullable="false"/></column>
 		
 			<column name="creator" type="int" defaultValueNumeric="0" ><constraints nullable="false"/></column>
 			<column name="date_created" type="DATETIME"><constraints nullable="false"/></column>
@@ -82,6 +82,7 @@
 			<column name="foreign_key" type="int"/>
 			<column name="reg_exp" type="varchar(255)"/>
 			<column name="required" defaultValueBoolean="false" type="BOOLEAN"><constraints nullable="false"/></column>
+			<column name="attribute_order" type="int"><constraints nullable="false"/></column>
 
 			<column name="workorder_type_id" type="int"><constraints nullable="false"/></column>
 		

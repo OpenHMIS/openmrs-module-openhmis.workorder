@@ -16,12 +16,14 @@
 		<!-- Access the Parent through the field because the parent property updates the children and will
 		    cause problems when executed while hibernate is loading the model. -->
 		<many-to-one name="parentWorkOrder" class="WorkOrder" column="parent_id"  access="field" />
+		<many-to-one name="workOrderType" class="WorkOrderType" column="workorder_type_id" />
 		<list name="workOrders" lazy="false" inverse="true" batch-size="100"
 		     cascade="all-delete-orphan">
 			<key column="parent_id" />
-			<list-index column="line_item_order" />
+			<list-index column="item_order" />
 			<one-to-many class="WorkOrder" />
 		</list>
+		<property name="itemOrder" type="int" column="item_order" not-null="true" />
 		<property name="name" type="java.lang.String" column="name" not-null="true" length="255" />
 		<property name="description" type="java.lang.String" column="description" length="1024" />
 		<property name="status" not-null="true" column="status">
@@ -62,7 +64,7 @@
 		<discriminator column="workorder_attribute_id" insert="false" />
 
 		<many-to-one name="owner" class="WorkOrder" not-null="true" column="workorder_id" />
-		<many-to-one name="attributeType" class="WorkOrderAttributeType" not-null="true" column="attribute_type_id" />
+		<many-to-one name="attributeType" class="WorkOrderAttributeType" column="attribute_type_id" foreign-key="none" />
 		<property name="value" type="text" not-null="true" column="value" length="65535" />
 
 		<many-to-one name="creator" class="org.openmrs.User" not-null="true" column="creator" />
@@ -85,11 +87,11 @@
 		</id>
 		<discriminator column="workorder_type_id" insert="false" />
 
-		<set name="attributeTypes" lazy="true" inverse="true" batch-size="100"
-		     cascade="all-delete-orphan" order-by="voided asc">
-			<key column="workorder_attribute_type_id" />
+		<list name="attributeTypes" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<key column="workorder_type_id" />
+			<list-index column="attribute_order" />
 			<one-to-many class="WorkOrderAttributeType" />
-		</set>
+		</list>
 
 		<property name="name" type="java.lang.String" column="name" not-null="true" length="255" />
 		<property name="description" type="java.lang.String" column="description" length="1024" />
@@ -111,8 +113,8 @@
 			</generator>
 		</id>
 		<discriminator column="workorder_attribute_type_id" insert="false" />
-
-		<many-to-one name="owner" class="WorkOrderType" not-null="true" column="workorder_type_id" />
+		
+		<many-to-one name="owner" class="WorkOrderType" column="workorder_type_id" not-null="true" />
 
 		<property name="name" type="java.lang.String" column="name" not-null="true" length="255" />
 		<property name="description" type="java.lang.String" column="description" length="1024" />
@@ -120,6 +122,7 @@
 		<property name="foreignKey" type="int" column="foreign_key" />
 		<property name="regExp" type="java.lang.String" column="reg_exp" length="255" />
 		<property name="required" type="java.lang.Boolean" column="required" length="1" not-null="true" />
+		<property name="attributeOrder" type="int" column="attribute_order" not-null="true" />
 
 		<many-to-one name="creator" class="org.openmrs.User" not-null="true" column="creator" />
 		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
@@ -131,7 +134,5 @@
 		<property name="retireReason" type="java.lang.String" column="retire_reason" length="255" />
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 	</class>
-
-
 
 </hibernate-mapping>

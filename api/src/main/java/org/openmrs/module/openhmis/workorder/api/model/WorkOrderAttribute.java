@@ -9,6 +9,11 @@ public class WorkOrderAttribute extends BaseMetadataInstanceAttribute<WorkOrder,
 	private Integer workOrderAttributeId;
 	
 	@Override
+	public void setAttributeType(WorkOrderAttributeType attributeType) {
+		super.setAttributeType(attributeType);
+	}
+	
+	@Override
 	public Integer getId() {
 		return workOrderAttributeId;
 	}

@@ -23,10 +23,14 @@
 	<!-- Module Activator -->
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.WorkOrderModuleActivator</activator>
 	
+	<globalProperty>
+		<property>${project.parent.artifactId}.defaultWorkOrderTypeUuid</property>
+		<description>UUID of the default work order type</description>
+	</globalProperty>
 	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-				
+		WorkOrder.hbm.xml
 	</mappingFiles>
 
 	<!-- Extensions -->

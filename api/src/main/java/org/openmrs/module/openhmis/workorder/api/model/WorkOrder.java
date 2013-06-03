@@ -16,6 +16,9 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribu
 	private WorkOrderStatus status = WorkOrderStatus.NEW;
 	private User assignedTo;
 	private WorkOrder parentWorkOrder = null;
+	private WorkOrderType workOrderType;
+	private Integer itemOrder = 0;
+
 	private List<WorkOrder> workOrders;
 
 	public void addWorkOrder(WorkOrder workOrder) {
@@ -109,5 +112,19 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribu
 			parent.addWorkOrder(this);
 		}
 		parentWorkOrder = parent;
+	}
+	public WorkOrderType getWorkOrderType() {
+		return workOrderType;
+	}
+
+	public void setWorkOrderType(WorkOrderType workOrderType) {
+		this.workOrderType = workOrderType;
+	}
+	public Integer getItemOrder() {
+		return itemOrder;
+	}
+
+	public void setItemOrder(Integer itemOrder) {
+		this.itemOrder = itemOrder;
 	}
 }

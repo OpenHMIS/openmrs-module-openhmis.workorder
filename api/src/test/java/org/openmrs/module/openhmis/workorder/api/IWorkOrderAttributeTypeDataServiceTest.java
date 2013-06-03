@@ -1,13 +1,12 @@
 package org.openmrs.module.openhmis.workorder.api;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.Concept;
-import org.openmrs.Location;
-import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttribute;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSensitiveTest {
@@ -18,36 +17,18 @@ public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSen
 		executeDataSet(IWorkOrderDataServiceTest.DATASET);
 		service = Context.getService(IWorkOrderAttributeTypeDataService.class);
 	}
-	
+
 	/**
-	 * @see IWorkOrderAttributeTypeDataService#convertToAttribute(Attributable)
-	 * @verifies return a set WorkOrderAttribute
+	 * @see IWorkOrderAttributeTypeDataService#getByFormat(String,Integer)
+	 * @verifies filter based on data type and work order
 	 */
 	@Test
-	public void convertToAttribute_shouldReturnASetWorkOrderAttribute()
+	public void getByFormat_shouldFilterBasedOnDataTypeAndWorkOrder()
 			throws Exception {
-		Integer locationId = 0;
-		Location location = new Location(locationId);
-		WorkOrderAttribute attribute = service.convertToAttribute(location);
-		Assert.assertEquals(locationId.toString(), attribute.getValue());
+		List<WorkOrderAttributeType> results = service.getByFormat("org.openmrs.Location", 0);
+		Assert.assertEquals(1, results.size());
+		Assert.assertEquals("Location", results.get(0).getName());
 	}
+	
 
-	/**
-	 * @see IWorkOrderAttributeTypeDataService#convertToAttribute(Attributable)
-	 * @verifies throw an exception if value is null
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void convertToAttribute_shouldThrowAnExceptionIfValueIsNull() throws Exception {
-		service.convertToAttribute(null);
-	}
-
-	/**
-	 * @see IWorkOrderAttributeTypeDataService#convertToAttribute(T)
-	 * @verifies throw an exception if no WorkOrderAttributeType is found
-	 */
-	@Test(expected = APIException.class)
-	public void convertToAttribute_shouldThrowAnExceptionIfNoWorkOrderAttributeTypeIsFound() throws Exception {
-		Concept concept = new Concept(0);
-		service.convertToAttribute(concept);
-	}
 }

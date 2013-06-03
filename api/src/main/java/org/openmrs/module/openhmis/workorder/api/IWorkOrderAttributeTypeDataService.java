@@ -1,25 +1,26 @@
 package org.openmrs.module.openhmis.workorder.api;
 
-import org.openmrs.Attributable;
+import java.util.List;
+
+import javax.persistence.NonUniqueResultException;
+
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
-import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttribute;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 
 public interface IWorkOrderAttributeTypeDataService
 		extends IMetadataDataService<WorkOrderAttributeType> {
 	
 	/**
-	 * Convert an object of type Attributable to a WorkOrderAttribute by
-	 * searching for a WorkOrderAttributeType to handle the class in
-	 * question.
-	 * @param value an object to store as a work order attribute
-	 * @return WorkOrderAttribute with value set, or null if no type can be
-	 * 		found to handle the object class
-	 * @should return a set WorkOrderAttribute
-	 * @should throw an exception if value is null
-	 * @should throw an exception if no WorkOrderAttributeType is found
+	 * 
+	 * @param datatypeClassname class name of the attribute type
+	 * @param workOrderTypeId the work order type
+	 * @return a list of matching attribute types
+	 * @should filter based on data type and work order
 	 */
-	public <T extends Attributable<?>> WorkOrderAttribute convertToAttribute(T value);
-	
-	public WorkOrderAttributeType getByFormat(String datatypeClassname);
+	public List<WorkOrderAttributeType> getByFormat(String datatypeClassname, Integer workOrderTypeId);
+	public List<WorkOrderAttributeType> getByFormat(String datatypeClassname, WorkOrderType workOrderType);
+
+	public WorkOrderAttributeType getByFormatUnique(String datatypeClassname, Integer workOrderTypeId) throws NonUniqueResultException;
+	public WorkOrderAttributeType getByFormatUnique(String datatypeClassname, WorkOrderType workOrderType) throws NonUniqueResultException;
 }

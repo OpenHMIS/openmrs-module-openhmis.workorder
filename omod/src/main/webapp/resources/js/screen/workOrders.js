@@ -5,12 +5,13 @@ curl(
 		openhmis.url.backboneBase +  'js/openhmis',
 		openhmis.url.backboneBase +  'js/lib/backbone-forms',
 		openhmis.url.workorderBase + 'js/model/workOrder',
-		openhmis.url.backboneBase +  'js/view/generic'
+		openhmis.url.backboneBase +  'js/view/generic',
+		openhmis.url.workorderBase + 'js/view/editors'
 	],
 	function($, openhmis) {
 		$(function() {
 			openhmis.startAddEditScreen(openhmis.WorkOrder, {
-				//listFields: ['name', 'description']
+				listFields: ['name', 'description']
 			});
 		});
 	}
