@@ -17,13 +17,12 @@ package org.openmrs.module.openhmis.workorder;
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.GlobalProperty;
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
 import org.openmrs.module.ModuleActivator;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 import org.openmrs.module.openhmis.workorder.api.util.ModuleConstants;
+import org.openmrs.module.openhmis.workorder.api.util.WorkOrderUtil;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -76,17 +75,10 @@ public class WorkOrderModuleActivator implements ModuleActivator {
 	}
 	
 	private void setupDefaultWorkOrderType() {
-		AdministrationService adminService = Context.getAdministrationService();
-		String defaultUuid = adminService.getGlobalProperty(ModuleConstants.DEFAULT_WORKORDER_TYPE_UUID_PROPERTY);
-		if (defaultUuid == null) {
-			IWorkOrderTypeDataService service = Context.getService(IWorkOrderTypeDataService.class);
-			MessageSourceService messages = Context.getMessageSourceService();
-			WorkOrderType workOrderType = new WorkOrderType();
-			workOrderType.setName(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeName"));
-			workOrderType.setDescription(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeDescription"));
-			service.save(workOrderType);
-			adminService.saveGlobalProperty(new GlobalProperty(
-					ModuleConstants.DEFAULT_WORKORDER_TYPE_UUID_PROPERTY, workOrderType.getUuid()));
-		}
+		MessageSourceService messages = Context.getMessageSourceService();
+		WorkOrderType workOrderType = new WorkOrderType();
+		workOrderType.setName(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeName"));
+		workOrderType.setDescription(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeDescription"));
+		WorkOrderUtil.ensureWorkOrderType(workOrderType, new GlobalProperty(ModuleConstants.DEFAULT_WORKORDER_TYPE_UUID_PROPERTY, null));
 	}
 }

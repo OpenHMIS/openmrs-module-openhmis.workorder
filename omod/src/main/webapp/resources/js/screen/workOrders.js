@@ -11,6 +11,11 @@ curl(
 	function($, openhmis) {
 		$(function() {
 			openhmis.startAddEditScreen(openhmis.WorkOrder, {
+				listElement: $("#list"),
+				addEditElement: $("#addEdit"),
+				itemView: openhmis.NestedListItemView,
+				itemActions: ["expand"],
+				modelChildren: "workOrders",
 				listFields: ['name', 'description']
 			});
 		});

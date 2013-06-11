@@ -32,7 +32,7 @@ public class WorkOrderAttributeTypeDataServiceImpl extends
 	public List<WorkOrderAttributeType> getByFormat(final String format, final Integer workOrderTypeId) {
 		final WorkOrderType orderType = new WorkOrderType();
 		orderType.setId(workOrderTypeId);
-		return getByFormat(format, workOrderTypeId);
+		return getByFormat(format, orderType);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class WorkOrderAttributeTypeDataServiceImpl extends
 			@Override
 			public void apply(Criteria criteria) {
 				if (workOrderType != null && workOrderType.getId() != null)
-					criteria.add(Restrictions.eq("owner", workOrderType.getId()));
+					criteria.add(Restrictions.eq("owner", workOrderType));
 				criteria.add(Restrictions.eq("format", format));
 				criteria.add(Restrictions.eq("retired", false));
 			}

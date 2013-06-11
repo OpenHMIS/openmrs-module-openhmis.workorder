@@ -21,8 +21,10 @@ public class WorkOrderResource extends BaseRestMetadataResource<WorkOrder> {
 	@Override
 	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
 		DelegatingResourceDescription description = super.getRepresentationDescription(rep);
+		description.addProperty("workOrders", Representation.REF);
 		if (!(rep instanceof RefRepresentation)) {
 			description.addProperty("attributes");
+			description.addProperty("workOrderType", Representation.REF);
 		}
 		if (rep instanceof FullRepresentation) {
 			description.addProperty("auditInfo", findMethod("getAuditInfo"));

@@ -27,18 +27,61 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="genericRepository" class="org.openmrs.module.openhmis.commons.api.entity.db.hibernate.HibernateRepository">
-		<constructor-arg name="sessionFactory" ref="sessionFactory" />
+	
+	<bean id="restService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<bean
+				class="org.openmrs.module.webservices.rest.web.api.impl.RestServiceImpl"
+				autowire="byType" />
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean
+				class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
 	</bean>
-
-	<!-- If we want to test something with the repository directly we can use this bean. -->
+	
 	<bean parent="serviceContext">
 		<property name="moduleService">
-			<list merge="true">
-				<value>org.openmrs.module.openhmis.commons.api.entity.db.hibernate.IHibernateRepository</value>
-				<ref bean="genericRepository" />
+			<list>
+				<value>org.openmrs.module.webservices.rest.web.api.RestService</value> <!-- service interface name -->
+				<ref bean="restService"/>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="restHelperService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<bean class="org.openmrs.module.webservices.rest.web.api.impl.RestHelperServiceImpl">
+				<property name="sessionFactory" ref="sessionFactory" />
+			</bean>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<bean
+				class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list>
+				<value>org.openmrs.module.webservices.rest.web.api.RestHelperService</value> <!-- service interface name -->
+				<ref bean="restHelperService"/>
+			</list>
+		</property>
+	</bean>
+
 </beans>

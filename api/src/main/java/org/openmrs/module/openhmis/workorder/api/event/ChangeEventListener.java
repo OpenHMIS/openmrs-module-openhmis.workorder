@@ -24,8 +24,8 @@ public class ChangeEventListener extends DefaultSaveOrUpdateEventListener
 		if (event.getEntity() instanceof WorkOrder) {
 			IWorkOrderEventService eventService = Context.getService(IWorkOrderEventService.class);
 			// Using an integer index is a bit brittle, but seems to be the way to do it
-			WorkOrderStatus previousStatus = (WorkOrderStatus) event.getOldState()[4];
-			WorkOrderStatus updatedStatus = (WorkOrderStatus) event.getState()[4];
+			WorkOrderStatus previousStatus = (WorkOrderStatus) event.getOldState()[6];
+			WorkOrderStatus updatedStatus = (WorkOrderStatus) event.getState()[6];
 			if (previousStatus != updatedStatus)
 				eventService.fireStatusChanged((WorkOrder) event.getEntity(), previousStatus);
 		}

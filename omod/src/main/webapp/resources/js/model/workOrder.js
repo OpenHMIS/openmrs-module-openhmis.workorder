@@ -34,7 +34,7 @@ define(
 			
 			toJSON: function(options) {
 				var attrs = openhmis.GenericModel.prototype.toJSON.call(this, options);
-				attrs.type = "workorder";
+				attrs.type = "WorkOrderAttributeType";
 				return attrs;
 			}
 
@@ -120,6 +120,7 @@ define(
 			meta: {
 				name: __("Work Order"),
 				openmrsType: 'metadata',
+				children: "workOrders",
 				restUrl: 'v2/workorder/workorder'
 			},
 			
@@ -146,8 +147,12 @@ define(
 			},
 			
 			parse: function(resp) {
-				if (resp.attributes)
-					resp.attributes = new openhmis.GenericCollection(resp.attributes, { model: openhmis.WorkOrderAttribute });
+				if (resp) {
+					if (resp.attributes)
+						resp.attributes = new openhmis.GenericCollection(resp.attributes, { model: openhmis.WorkOrderAttribute });
+					if (resp.workOrders)
+						resp.workOrders = new openhmis.GenericCollection(resp.workOrders, { model: openhmis.WorkOrder });
+				}
 				return resp;
 			},
 			
