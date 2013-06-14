@@ -5,7 +5,7 @@ import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataServiceTest;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
 
-public class IWorkOrderDataServiceTest extends IMetadataDataServiceTest<IWorkOrderDataService, WorkOrder> {
+public class IWorkOrderDataServiceTest extends IMetadataDataServiceTest<IWorkOrderService, WorkOrder> {
 	public static final String DATASET = TestConstants.BASE_DATASET_DIR + "WorkOrderTest.xml";
 	@Override
 	public void before() throws Exception {

@@ -10,5 +10,6 @@
 </div>
 <div id="addEdit" class="add-edit-half">
 </div>
+<div class="clear"></div>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>

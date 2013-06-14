@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderEventService;
 import org.openmrs.module.openhmis.workorder.api.TestConstants;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration()
 @Transactional
 public class ChangeEventListenerTest extends BaseModuleContextSensitiveTest {
-	private IWorkOrderDataService dataService;
+	private IWorkOrderService dataService;
 	private IWorkOrderEventService eventService;
 	private StatusActionTester testAction;
 	
@@ -30,7 +30,7 @@ public class ChangeEventListenerTest extends BaseModuleContextSensitiveTest {
 	@Before
 	public void before() throws Exception {
 		executeDataSet(TestConstants.WORKORDER_DATASET);
-		dataService = Context.getService(IWorkOrderDataService.class);
+		dataService = Context.getService(IWorkOrderService.class);
 		eventService = Context.getService(IWorkOrderEventService.class);
 		testAction = new StatusActionTester();
 		eventService.registerWorkOrderStatusHandler(testAction);

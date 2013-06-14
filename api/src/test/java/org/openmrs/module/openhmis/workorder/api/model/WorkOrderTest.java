@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataServiceTest;
 import org.openmrs.module.openhmis.workorder.api.TestConstants;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -26,7 +26,7 @@ public class WorkOrderTest extends BaseModuleContextSensitiveTest {
 	@Test
 	public void WorkOrder_shouldLoadAttributableAttributeType() throws Exception {
 		executeDataSet(TestConstants.CORE_DATASET);
-		IWorkOrderDataService service = Context.getService(IWorkOrderDataService.class);
+		IWorkOrderService service = Context.getService(IWorkOrderService.class);
 		WorkOrder workOrder = service.getById(0);
 		Collection<WorkOrderAttribute> attributes = workOrder.getAttributes();
 		WorkOrderAttribute[] array = new WorkOrderAttribute[attributes.size()];

@@ -5,5 +5,5 @@ public class WorkOrderRestConstants {
 
 	public static final String WORKORDER_RESOURCE = MODULE_REST_ROOT + "workorder";
 	public static final String WORKORDER_TYPE_RESOURCE = MODULE_REST_ROOT + "workordertype";
-	public static final String WORKORDER_ATTRIBUTE_TYPE_RESOURCE = MODULE_REST_ROOT + "workorderattributetype";
+	public static final String WORKORDER_ATTRIBUTE_TYPE_RESOURCE = MODULE_REST_ROOT + "attributetype";
 }

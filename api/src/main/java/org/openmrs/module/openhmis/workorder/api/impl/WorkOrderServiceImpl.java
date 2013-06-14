@@ -1,8 +1,10 @@
 package org.openmrs.module.openhmis.workorder.api.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,13 +17,15 @@ import org.openmrs.module.openhmis.commons.api.PagingInfo;
 import org.openmrs.module.openhmis.commons.api.entity.impl.BaseMetadataDataServiceImpl;
 import org.openmrs.module.openhmis.commons.api.entity.security.IMetadataAuthorizationPrivileges;
 import org.openmrs.module.openhmis.commons.api.f.Action1;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
 
-public class WorkOrderDataServiceImpl
+public class WorkOrderServiceImpl
 		extends BaseMetadataDataServiceImpl<WorkOrder>
-		implements IWorkOrderDataService {
+		implements IWorkOrderService {
+	
+	private static Map<String, String> workOrderTypeToJsModulePathMap = new HashMap<String, String>();
 	
 	/**
 	 * @should ensure that child work orders are ordered contiguously from zero
@@ -77,5 +81,18 @@ public class WorkOrderDataServiceImpl
 				}
 			}
 		});
+	}
+
+	@Override
+	public String getJsModulePathByWorkOrderTypeUuid(String workOrderTypeUuid) {
+		return workOrderTypeToJsModulePathMap.get(workOrderTypeUuid);
+	}
+
+	@Override
+	public void registerCustomWorkOrderTypeJsModule(String workOrderTypeUuid,
+			String modulePath) {
+		if (StringUtils.isEmpty(workOrderTypeUuid) || StringUtils.isEmpty(modulePath))
+			return;
+		workOrderTypeToJsModulePathMap.put(workOrderTypeUuid, modulePath);
 	}
 }

@@ -4,20 +4,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class WorkOrderDataServiceImplTest extends BaseModuleContextSensitiveTest {
-	private IWorkOrderDataService service;
+	private IWorkOrderService service;
 	
 	@Before
 	public void before() {
-		service = Context.getService(IWorkOrderDataService.class);
+		service = Context.getService(IWorkOrderService.class);
 	}
 	
 	/**
-	 * @see WorkOrderDataServiceImpl#save(WorkOrder)
+	 * @see WorkOrderServiceImpl#save(WorkOrder)
 	 * @verifies ensure that child work orders are ordered contiguously
 	 */
 	@Test

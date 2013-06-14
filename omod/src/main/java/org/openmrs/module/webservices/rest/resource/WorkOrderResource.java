@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
 import org.openmrs.module.openhmis.commons.api.entity.model.InstanceAttribute;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttribute;
 import org.openmrs.module.webservices.rest.web.WorkOrderRestConstants;
@@ -22,9 +22,9 @@ public class WorkOrderResource extends BaseRestMetadataResource<WorkOrder> {
 	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
 		DelegatingResourceDescription description = super.getRepresentationDescription(rep);
 		description.addProperty("workOrders", Representation.REF);
+		description.addProperty("workOrderType", Representation.REF);
 		if (!(rep instanceof RefRepresentation)) {
 			description.addProperty("attributes");
-			description.addProperty("workOrderType", Representation.REF);
 		}
 		if (rep instanceof FullRepresentation) {
 			description.addProperty("auditInfo", findMethod("getAuditInfo"));
@@ -49,7 +49,7 @@ public class WorkOrderResource extends BaseRestMetadataResource<WorkOrder> {
 	
 	@Override
 	public Class<? extends IMetadataDataService<WorkOrder>> getServiceClass() {
-		return IWorkOrderDataService.class;
+		return IWorkOrderService.class;
 	}
 
 	@Override

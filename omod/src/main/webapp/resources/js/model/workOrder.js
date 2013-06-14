@@ -10,7 +10,8 @@ define(
             meta: {
                 name: "Attribute Type",
                 openmrsType: 'metadata',
-                restUrl: 'v2/openhmis/attributetype?t=WorkOrderAttributeType'
+                restUrl: "v2/workorder/attributetype"
+				//modelType: "WorkOrderAttributeType"
             },
 
             schema: {
@@ -126,13 +127,13 @@ define(
 			
 			schema: {
 				name: 'Text',
-				description: 'Text',
 				workOrderType: {
 					type: 'GenericModelSelect',
 					modelType: openhmis.WorkOrderType,
 					options: new openhmis.GenericCollection([], { model: openhmis.WorkOrderType }),
 					objRef: true
 				},
+				description: { type: "TextArea", title: "Instructions" },
                 attributes: {
 					type: 'List',
 					itemType: 'NestedModel',
@@ -149,9 +150,11 @@ define(
 			parse: function(resp) {
 				if (resp) {
 					if (resp.attributes)
-						resp.attributes = new openhmis.GenericCollection(resp.attributes, { model: openhmis.WorkOrderAttribute });
+						resp.attributes = new openhmis.GenericCollection(resp.attributes, { model: openhmis.WorkOrderAttribute, parse: true }).models;
 					if (resp.workOrders)
-						resp.workOrders = new openhmis.GenericCollection(resp.workOrders, { model: openhmis.WorkOrder });
+						resp.workOrders = new openhmis.GenericCollection(resp.workOrders, { model: openhmis.WorkOrder, parse: true });
+					if (resp.workOrderType)
+						resp.workOrderType = new openhmis.WorkOrderType(resp.workOrderType);
 				}
 				return resp;
 			},

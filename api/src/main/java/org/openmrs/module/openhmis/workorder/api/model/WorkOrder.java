@@ -7,7 +7,7 @@ import org.openmrs.Attributable;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.openhmis.commons.api.entity.model.BaseCustomizableInstanceMetadata;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 
 public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribute>
 	implements Attributable<WorkOrder> {
@@ -40,7 +40,7 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribu
 	
 	@Override
 	public WorkOrder hydrate(String id) {
-		return Context.getService(IWorkOrderDataService.class).getById(Integer.parseInt(id));
+		return Context.getService(IWorkOrderService.class).getById(Integer.parseInt(id));
 	}
 
 	@Override

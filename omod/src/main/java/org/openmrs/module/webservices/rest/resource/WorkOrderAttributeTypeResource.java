@@ -7,9 +7,10 @@ import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
 import org.openmrs.module.openhmis.commons.api.entity.model.InstanceAttributeType;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
-import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 import org.openmrs.module.webservices.rest.web.RequestContext;
+import org.openmrs.module.webservices.rest.web.WorkOrderRestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
+import org.openmrs.module.webservices.rest.web.annotation.Resource;
 import org.openmrs.module.webservices.rest.web.representation.RefRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.api.Converter;
@@ -19,6 +20,7 @@ import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceD
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubclassHandler;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 
+@Resource(name = WorkOrderRestConstants.WORKORDER_ATTRIBUTE_TYPE_RESOURCE, supportedClass = WorkOrderAttributeType.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*"})
 @Handler(supports = WorkOrderAttributeType.class)
 public class WorkOrderAttributeTypeResource
 		extends BaseRestMetadataResource<WorkOrderAttributeType>
@@ -61,7 +63,7 @@ public class WorkOrderAttributeTypeResource
 	@Override
 	public PageableResult getAllByType(RequestContext context)
 			throws ResourceDoesNotSupportOperationException {
-		PagingInfo info = MetadataSearcher.getPagingInfoFromContext(context);
+		PagingInfo info = PagingUtil.getPagingInfoFromContext(context);
 		return new AlreadyPaged<WorkOrderAttributeType>(
 			context,
 			Context.getService(IWorkOrderAttributeTypeDataService.class).getAll(info),
