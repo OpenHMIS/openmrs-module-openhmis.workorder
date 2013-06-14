@@ -32,7 +32,7 @@ public class WorkOrderServiceImpl
 	 */
 	@Override
 	public WorkOrder save(WorkOrder object) throws APIException {
-		if (!object.getWorkOrders().isEmpty()) {
+		if (object.getWorkOrders() != null && !object.getWorkOrders().isEmpty()) {
 			Iterator<WorkOrder> iter = object.getWorkOrders().iterator();
 			WorkOrder subOrder = null;
 			try {
