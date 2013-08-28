@@ -38,8 +38,7 @@ import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOp
 public class WorkOrderAttributeTypeResource
 		extends BaseRestMetadataResource<WorkOrderAttributeType>
 		implements DelegatingSubclassHandler<InstanceAttributeType, WorkOrderAttributeType>,
-		org.openmrs.module.webservices.rest.web.resource.api.Resource, Converter<WorkOrderAttributeType> {
-
+			org.openmrs.module.webservices.rest.web.resource.api.Resource, Converter<WorkOrderAttributeType> {
 	@Override
 	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
 		DelegatingResourceDescription description = super.getRepresentationDescription(rep);
