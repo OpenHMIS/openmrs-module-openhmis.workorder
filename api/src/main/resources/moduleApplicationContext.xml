@@ -24,7 +24,7 @@
 		<property name="moduleService">
 			<list merge="true">
 				<value>org.openmrs.module.openhmis.workorder.api.IWorkOrderService</value>
-				<ref bean="WorkOrderService" />
+				<ref bean="workOrderService" />
 			</list>
 		</property>
 	</bean>
@@ -32,7 +32,7 @@
 		<property name="moduleService">
 			<list merge="true">
 				<value>org.openmrs.module.openhmis.workorder.api.IWorkOrderTypeDataService</value>
-				<ref bean="WorkOrderTypeDataService" />
+				<ref bean="workOrderTypeDataService" />
 			</list>
 		</property>
 	</bean>
@@ -40,7 +40,7 @@
 		<property name="moduleService">
 			<list merge="true">
 				<value>org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService</value>
-				<ref bean="WorkOrderAttributeTypeDataService" />
+				<ref bean="workOrderAttributeTypeDataService" />
 			</list>
 		</property>
 	</bean>
@@ -48,14 +48,14 @@
 		<property name="moduleService">
 			<list merge="true">
 				<value>org.openmrs.module.openhmis.workorder.api.IWorkOrderEventService</value>
-				<ref bean="WorkOrderEventService" />
+				<ref bean="workOrderEventService" />
 			</list>
 		</property>
 	</bean>
 
 	
 	<!-- Service Bean Definitions -->
-	<bean id="WorkOrderService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<bean id="workOrderService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="target">
 			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderServiceImpl">
@@ -65,7 +65,7 @@
 		<property name="preInterceptors" ref="serviceInterceptors" />
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
 	</bean>
-	<bean id="WorkOrderTypeDataService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<bean id="workOrderTypeDataService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="target">
 			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderTypeDataServiceImpl">
@@ -75,7 +75,7 @@
 		<property name="preInterceptors" ref="serviceInterceptors" />
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
 	</bean>
-	<bean id="WorkOrderAttributeTypeDataService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<bean id="workOrderAttributeTypeDataService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="target">
 			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderAttributeTypeDataServiceImpl">
@@ -85,10 +85,10 @@
 		<property name="preInterceptors" ref="serviceInterceptors" />
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
 	</bean>
-	<bean id="WorkOrderEventService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<bean id="workOrderEventService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="target">
-			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderEventServiceImpl"></bean>
+			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderEventServiceImpl" />
 		</property>
 		<property name="preInterceptors" ref="serviceInterceptors" />
 		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
