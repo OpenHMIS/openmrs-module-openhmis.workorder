@@ -25,10 +25,11 @@ import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 
 import java.util.Set;
 
-public class WorkOrderUtil {
-	public static WorkOrderAttribute getAttributeByTypeName(WorkOrder workOrder, String typeName) {
-		WorkOrderAttributeType type = Context.getService(IWorkOrderAttributeTypeDataService.class)
-				.getByFormatUnique(typeName, workOrder.getWorkOrderType());
+public class WorkOrderHelper {
+	public static WorkOrderAttribute getAttributeByTypeName(WorkOrder workOrder, Class clazz) {
+		IWorkOrderAttributeTypeDataService service = Context.getService(IWorkOrderAttributeTypeDataService.class);
+
+		WorkOrderAttributeType type = service.getByClass(clazz.getName(), workOrder.getWorkOrderType());
 
 		Set<WorkOrderAttribute> attrs = workOrder.getActiveAttributes(type);
 		if (attrs.size() > 0) {

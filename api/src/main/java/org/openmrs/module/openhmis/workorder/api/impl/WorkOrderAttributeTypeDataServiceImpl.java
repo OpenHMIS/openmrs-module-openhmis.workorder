@@ -13,10 +13,6 @@
  */
 package org.openmrs.module.openhmis.workorder.api.impl;
 
-import java.util.List;
-
-import javax.persistence.NonUniqueResultException;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.APIException;
@@ -26,6 +22,9 @@ import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
+
+import javax.persistence.NonUniqueResultException;
+import java.util.List;
 
 public class WorkOrderAttributeTypeDataServiceImpl extends
 		BaseMetadataDataServiceImpl<WorkOrderAttributeType> implements
@@ -40,43 +39,30 @@ public class WorkOrderAttributeTypeDataServiceImpl extends
 	protected void validate(WorkOrderAttributeType object) throws APIException {
 	}
 
-
 	@Override
-	public List<WorkOrderAttributeType> getByFormat(final String format, final Integer workOrderTypeId) {
-		final WorkOrderType orderType = new WorkOrderType();
-		orderType.setId(workOrderTypeId);
-		return getByFormat(format, orderType);
-	}
-
-	@Override
-	public List<WorkOrderAttributeType> getByFormat(final String format, final WorkOrderType workOrderType) {
-		List<WorkOrderAttributeType> types = executeCriteria(getEntityClass(), null, new Action1<Criteria>() {
+	public List<WorkOrderAttributeType> findByClass(final WorkOrderType type, final Class attributeClass) {
+		return executeCriteria(getEntityClass(), null, new Action1<Criteria>() {
 			@Override
 			public void apply(Criteria criteria) {
-				if (workOrderType != null && workOrderType.getId() != null)
-					criteria.add(Restrictions.eq("owner", workOrderType));
-				criteria.add(Restrictions.eq("format", format));
+				if (type != null && type.getId() != null)
+					criteria.add(Restrictions.eq("owner", type));
+				criteria.add(Restrictions.eq("format", attributeClass.getName()));
 				criteria.add(Restrictions.eq("retired", false));
 			}
 		});
-		return types;
 	}
 
 	@Override
-	public WorkOrderAttributeType getByFormatUnique(final String format, final Integer workOrderTypeId) throws NonUniqueResultException {
-		final WorkOrderType orderType = new WorkOrderType();
-		orderType.setId(workOrderTypeId);
-		return getByFormatUnique(format, workOrderTypeId);
-	}
+	public WorkOrderAttributeType getByClass(WorkOrderType type, Class attributeClass) throws NonUniqueResultException {
+		List<WorkOrderAttributeType> results = findByClass(type, attributeClass);
 
-	@Override
-	public WorkOrderAttributeType getByFormatUnique(final String format, final WorkOrderType workOrderType) throws NonUniqueResultException {
-		List<WorkOrderAttributeType> results = getByFormat(format, workOrderType);
-		if (results.size() > 1)
-			throw new NonUniqueResultException("The work order type has more than one attribute of type " + format + ".");
-		else if (results.isEmpty())
+		if (results.size() > 1) {
+			throw new NonUniqueResultException("The work order type has more than one attribute of type " + attributeClass.getName() + ".");
+		} else if (results.isEmpty()) {
 			return null;
-		return results.get(0);
+		} else {
+			return results.get(0);
+		}
 	}
 
 }

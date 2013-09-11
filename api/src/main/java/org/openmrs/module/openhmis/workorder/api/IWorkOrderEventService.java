@@ -16,7 +16,6 @@ package org.openmrs.module.openhmis.workorder.api;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
-import org.openmrs.module.openhmis.workorder.api.util.WorkOrderStatusAction;
 
 public interface IWorkOrderEventService extends OpenmrsService {
 

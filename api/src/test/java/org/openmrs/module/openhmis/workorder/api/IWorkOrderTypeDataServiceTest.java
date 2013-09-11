@@ -13,8 +13,10 @@ public class IWorkOrderTypeDataServiceTest extends IMetadataDataServiceTest<IWor
 	protected WorkOrderType createEntity(boolean makeValid) {
 		WorkOrderType workOrderType = new WorkOrderType();
 		
-		if (makeValid)
+		if (makeValid) {
 			workOrderType.setName("Test Work Order Type");
+		}
+
 		workOrderType.setDescription("Work order type description");
 		workOrderType.addAttributeType("Test attr. type", "java.lang.String", null, null, false, null);
 		return workOrderType;

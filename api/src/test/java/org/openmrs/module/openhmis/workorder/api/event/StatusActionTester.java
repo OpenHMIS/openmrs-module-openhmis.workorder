@@ -2,7 +2,7 @@ package org.openmrs.module.openhmis.workorder.api.event;
 
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
-import org.openmrs.module.openhmis.workorder.api.util.WorkOrderStatusAction;
+import org.openmrs.module.openhmis.workorder.api.WorkOrderStatusAction;
 
 import java.util.LinkedList;
 

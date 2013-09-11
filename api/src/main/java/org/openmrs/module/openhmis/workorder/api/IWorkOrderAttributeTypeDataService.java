@@ -13,27 +13,39 @@
  */
 package org.openmrs.module.openhmis.workorder.api;
 
-import java.util.List;
-
-import javax.persistence.NonUniqueResultException;
-
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
+
+import javax.persistence.NonUniqueResultException;
+import java.util.List;
 
 public interface IWorkOrderAttributeTypeDataService
 		extends IMetadataDataService<WorkOrderAttributeType> {
 	
 	/**
-	 * 
-	 * @param datatypeClassname class name of the attribute type
-	 * @param workOrderTypeId the work order type
-	 * @return a list of matching attribute types
-	 * @should filter based on data type and work order
+	 * Finds any {@link WorkOrderType} {@link WorkOrderAttributeType}s with the specified class.
+	 * @param type The work order type
+	 * @param attributeClass The attribute class
+	 * @return A list of the matching attribute types
+	 * @should throw NullPointerException if type is null
+	 * @should throw NullPointerException if attributeClass is null
+	 * @should return empty list when no results
+	 * @should only return attributes for specified type
 	 */
-	public List<WorkOrderAttributeType> getByFormat(String datatypeClassname, Integer workOrderTypeId);
-	public List<WorkOrderAttributeType> getByFormat(String datatypeClassname, WorkOrderType workOrderType);
+	public List<WorkOrderAttributeType> findByClass(WorkOrderType type, Class attributeClass);
 
-	public WorkOrderAttributeType getByFormatUnique(String datatypeClassname, Integer workOrderTypeId) throws NonUniqueResultException;
-	public WorkOrderAttributeType getByFormatUnique(String datatypeClassname, WorkOrderType workOrderType) throws NonUniqueResultException;
+	/**
+	 * Gets the {@link WorkOrderType} {@link WorkOrderAttributeType} for the specified class.
+	 * @param type The work order type.
+	 * @param attributeClass The attribute class.
+	 * @return The {@link WorkOrderAttributeType} or {@code null} if no attributes with the specified class can be found.
+	 * @throws NonUniqueResultException
+	 * @should throw NullPointerException if type is null
+	 * @should throw NullPointerException if attributeClass is null
+	 * @should throw NonUniqueResultException if the type has multiple attributes with the specified class
+	 * @should return null if no attribute is found
+	 * @should return the attribute type for the specified type
+	 */
+	public WorkOrderAttributeType getByClass(WorkOrderType type, Class attributeClass) throws NonUniqueResultException;
 }

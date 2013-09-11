@@ -14,93 +14,35 @@
 package org.openmrs.module.openhmis.workorder.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
-import org.openmrs.OpenmrsObject;
-import org.openmrs.api.APIException;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.openhmis.commons.api.PagingInfo;
-import org.openmrs.module.openhmis.commons.api.entity.impl.BaseMetadataDataServiceImpl;
-import org.openmrs.module.openhmis.commons.api.entity.security.IMetadataAuthorizationPrivileges;
-import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
-import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
-import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 
-import java.util.*;
+import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class WorkOrderServiceImpl
-		extends BaseMetadataDataServiceImpl<WorkOrder>
-		implements IWorkOrderService {
-	
+public class WorkOrderServiceImpl implements IWorkOrderService {
 	private static Map<String, String> workOrderTypeToJsModulePathMap = new HashMap<String, String>();
 	
-	/**
-	 * @should ensure that child work orders are ordered contiguously from zero
-	 */
 	@Override
-	public WorkOrder save(WorkOrder object) throws APIException {
-		if (object.getWorkOrders() != null && !object.getWorkOrders().isEmpty()) {
-			Iterator<WorkOrder> iter = object.getWorkOrders().iterator();
-			WorkOrder subOrder = null;
-			try {
-				for (int i = 0; (subOrder = iter.next()) != null; i++)
-					subOrder.setItemOrder(i);
-			} catch (NoSuchElementException e) { }
-		}
-		return super.save(object);
-	}
-	
-	@Override
-	protected Collection<? extends OpenmrsObject> getRelatedObjects(WorkOrder entity) {
-		return entity.getWorkOrders();
-	}
-	
-	@Override
-	protected IMetadataAuthorizationPrivileges getPrivileges() {
-		return null;
-	}
-
-	@Override
-	protected void validate(WorkOrder object) throws APIException {
-		if ((object.getStatus() == WorkOrderStatus.COMPLETE || object.getStatus() == WorkOrderStatus.CANCELLED)
-				&& object.getAssignedTo() == null)
-			throw new APIException("A work order must be assigned to a user to be saved as " + object.getStatus());
-	}
-	
-	/**
-	 * Overrides the default get all logic to return only the root categories (ie, categories with no parent).
-	 * @param pagingInfo The {@link PagingInfo} object to load with the record count.
-	 * @return The root categories.
-	 */
-	@Override
-	public List<WorkOrder> getAll(final boolean includeRetired, PagingInfo pagingInfo) {
-		IMetadataAuthorizationPrivileges privileges = getPrivileges();
-		if (privileges != null && !StringUtils.isEmpty(privileges.getGetPrivilege())) {
-			Context.requirePrivilege(privileges.getGetPrivilege());
+	public String getModuleJavascript(WorkOrderType type) {
+		if (type == null) {
+			throw new NullPointerException("The work order type must be defined.");
 		}
 
-		return executeCriteria(WorkOrder.class, pagingInfo, new Action1<Criteria>() {
-			@Override
-			public void apply(Criteria criteria) {
-				criteria.add(Restrictions.isNull("parentWorkOrder"));
-				if (!includeRetired) {
-					criteria.add(Restrictions.eq("retired", false));
-				}
-			}
-		});
+		return workOrderTypeToJsModulePathMap.get(type.getUuid());
 	}
 
 	@Override
-	public String getModuleJavascript(String workOrderTypeUuid) {
-		return workOrderTypeToJsModulePathMap.get(workOrderTypeUuid);
-	}
+	public void registerModuleJavascript(WorkOrderType type, String javascriptPath) {
+		if (type == null) {
+			throw new NullPointerException("The work order type must be defined.");
+		}
+		if (StringUtils.isEmpty(javascriptPath)) {
+			throw new InvalidParameterException("The javascript path must be defined.");
+		}
 
-	@Override
-	public void registerModuleJavascript(String workOrderTypeUuid,
-	                                     String modulePath) {
-		if (StringUtils.isEmpty(workOrderTypeUuid) || StringUtils.isEmpty(modulePath))
-			return;
-		workOrderTypeToJsModulePathMap.put(workOrderTypeUuid, modulePath);
+		workOrderTypeToJsModulePathMap.put(type.getUuid(), javascriptPath);
 	}
 }
+

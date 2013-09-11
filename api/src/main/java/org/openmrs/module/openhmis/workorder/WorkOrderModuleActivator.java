@@ -22,7 +22,7 @@ import org.openmrs.messagesource.MessageSourceService;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 import org.openmrs.module.openhmis.workorder.api.util.ModuleConstants;
-import org.openmrs.module.openhmis.workorder.api.util.WorkOrderUtil;
+import org.openmrs.module.openhmis.workorder.api.util.WorkOrderHelper;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -77,14 +77,14 @@ public class WorkOrderModuleActivator implements ModuleActivator {
 	private void setupDefaultWorkOrderType() {
 		GlobalProperty defaultProperty = new GlobalProperty(ModuleConstants.DEFAULT_WORKORDER_TYPE_UUID_PROPERTY, null);
 
-		if (!WorkOrderUtil.checkWorkOrderType(defaultProperty)) {
+		if (!WorkOrderHelper.checkWorkOrderType(defaultProperty)) {
 			MessageSourceService messages = Context.getMessageSourceService();
 
 			WorkOrderType workOrderType = new WorkOrderType();
 			workOrderType.setName(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeName"));
 			workOrderType.setDescription(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeDescription"));
 
-			WorkOrderUtil.ensureWorkOrderType(workOrderType, defaultProperty);
+			WorkOrderHelper.ensureWorkOrderType(workOrderType, defaultProperty);
 		}
 	}
 }

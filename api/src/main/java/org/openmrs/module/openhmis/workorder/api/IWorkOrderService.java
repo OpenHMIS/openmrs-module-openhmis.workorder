@@ -13,11 +13,28 @@
  */
 package org.openmrs.module.openhmis.workorder.api;
 
-import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
-import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 
-public interface IWorkOrderService extends IMetadataDataService<WorkOrder> {
-	public void registerModuleJavascript(String workOrderTypeUuid, String javascriptPath);
+public interface IWorkOrderService {
+	/**
+	 * Registers a custom javascript file for the specified {@link WorkOrderType}.
+	 * @param type The work order type
+	 * @param javascriptPath The path to the javascript file
+	 * @should throw NullPointerException if type is null
+	 * @should throw InvalidParameterException if javascript path is null
+	 * @should throw InvalidParameterException if javascript path is empty
+	 * @should register the javascript path only for the specified type
+	 */
+	public void registerModuleJavascript(WorkOrderType type, String javascriptPath);
 
-	public String getModuleJavascript(String workOrderTypeUuid);
+	/**
+	 * Gets the custom javascript file for the specified {@link WorkOrderType}.
+	 * @param type The work order type
+	 * @return The javascript file path or {@code null} if one has not been registered
+	 * @should throw NullPointerException if type is null
+	 * @should return null if no javascript file has been registered for the specified type
+	 * @should return the javascript for only the specified type
+	 */
+	public String getModuleJavascript(WorkOrderType type);
 }
+
