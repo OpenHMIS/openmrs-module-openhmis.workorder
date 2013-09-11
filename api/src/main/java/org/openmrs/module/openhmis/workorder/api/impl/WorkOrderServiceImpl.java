@@ -23,15 +23,6 @@ import java.util.Map;
 
 public class WorkOrderServiceImpl implements IWorkOrderService {
 	private static Map<String, String> workOrderTypeToJsModulePathMap = new HashMap<String, String>();
-	
-	@Override
-	public String getModuleJavascript(WorkOrderType type) {
-		if (type == null) {
-			throw new NullPointerException("The work order type must be defined.");
-		}
-
-		return workOrderTypeToJsModulePathMap.get(type.getUuid());
-	}
 
 	@Override
 	public void registerModuleJavascript(WorkOrderType type, String javascriptPath) {
@@ -43,6 +34,24 @@ public class WorkOrderServiceImpl implements IWorkOrderService {
 		}
 
 		workOrderTypeToJsModulePathMap.put(type.getUuid(), javascriptPath);
+	}
+
+	@Override
+	public String getModuleJavascript(WorkOrderType type) {
+		if (type == null) {
+			throw new NullPointerException("The work order type must be defined.");
+		}
+
+		return getModuleJavascript(type.getUuid());
+	}
+
+	@Override
+	public String getModuleJavascript(String typeUuid) {
+		if (StringUtils.isEmpty(typeUuid)) {
+			throw new InvalidParameterException("The work order type UUID must be defined.");
+		}
+
+		return workOrderTypeToJsModulePathMap.get(typeUuid);
 	}
 }
 

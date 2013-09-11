@@ -13,11 +13,9 @@
  */
 package org.openmrs.module.webservices.rest.resource;
 
-import java.util.List;
-
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
 import org.openmrs.module.openhmis.commons.api.entity.model.InstanceAttribute;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttribute;
 import org.openmrs.module.webservices.rest.web.WorkOrderRestConstants;
@@ -27,6 +25,8 @@ import org.openmrs.module.webservices.rest.web.representation.FullRepresentation
 import org.openmrs.module.webservices.rest.web.representation.RefRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
+
+import java.util.List;
 
 @Resource(name = WorkOrderRestConstants.WORKORDER_RESOURCE, supportedClass=WorkOrder.class, supportedOpenmrsVersions={"1.9"})
 public class WorkOrderResource extends BaseRestMetadataResource<WorkOrder> {
@@ -62,7 +62,7 @@ public class WorkOrderResource extends BaseRestMetadataResource<WorkOrder> {
 	
 	@Override
 	public Class<? extends IMetadataDataService<WorkOrder>> getServiceClass() {
-		return IWorkOrderService.class;
+		return IWorkOrderDataService.class;
 	}
 
 	@Override

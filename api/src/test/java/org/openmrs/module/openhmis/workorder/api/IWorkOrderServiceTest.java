@@ -73,4 +73,14 @@ public class IWorkOrderServiceTest {
 		//TODO auto-generated
 		Assert.fail("Not yet implemented");
 	}
+
+	/**
+	 * @verifies throw InvalidParameterException if type uuid is null or empty
+	 * @see IWorkOrderService#getModuleJavascript(String)
+	 */
+	@Test
+	public void getModuleJavascript_shouldThrowInvalidParameterExceptionIfTypeUuidIsNullOrEmpty() throws Exception {
+		//TODO auto-generated
+		Assert.fail("Not yet implemented");
+	}
 }

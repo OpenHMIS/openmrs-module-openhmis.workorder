@@ -4,16 +4,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class WorkOrderDataServiceImplTest extends BaseModuleContextSensitiveTest {
-	private IWorkOrderService service;
+	private IWorkOrderDataService service;
 	
 	@Before
 	public void before() {
-		service = Context.getService(IWorkOrderService.class);
+		service = Context.getService(IWorkOrderDataService.class);
 	}
 	
 	/**

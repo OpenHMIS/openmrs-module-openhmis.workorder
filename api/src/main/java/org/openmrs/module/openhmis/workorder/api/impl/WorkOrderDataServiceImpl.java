@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.OpenmrsObject;
+import org.openmrs.User;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.openhmis.commons.api.PagingInfo;
@@ -26,6 +27,7 @@ import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -66,9 +68,9 @@ public class WorkOrderDataServiceImpl
 
 	@Override
 	protected void validate(WorkOrder object) throws APIException {
-		if (object.getAssignedTo() == null &&
-				(object.getStatus() == WorkOrderStatus.COMPLETE || object.getStatus() == WorkOrderStatus.CANCELLED)) {
-			throw new APIException("A work order must be assigned to a user to be saved as " + object.getStatus());
+		if ((object.getAssignedToUser() == null && object.getAssignedToRole() == null) &&
+			(object.getStatus() == WorkOrderStatus.COMPLETE || object.getStatus() == WorkOrderStatus.CANCELLED)) {
+			throw new APIException("A work order must be assigned to a user/role to be saved as " + object.getStatus());
 		}
 	}
 
@@ -94,5 +96,10 @@ public class WorkOrderDataServiceImpl
 				}
 			}
 		});
+	}
+
+	@Override
+	public List<WorkOrder> getUserWorkOrders(User user, WorkOrderStatus status, PagingInfo pagingInfo) {
+		throw new NotImplementedException();
 	}
 }
