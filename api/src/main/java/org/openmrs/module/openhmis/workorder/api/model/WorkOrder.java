@@ -13,21 +13,24 @@
  */
 package org.openmrs.module.openhmis.workorder.api.model;
 
-import java.util.LinkedList;
-import java.util.List;
 import org.apache.commons.lang.NotImplementedException;
 import org.openmrs.Attributable;
+import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.openhmis.commons.api.entity.model.BaseCustomizableInstanceMetadata;
-import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
+import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribute>
 	implements Attributable<WorkOrder> {
 
 	private Integer workOrderId;
 	private WorkOrderStatus status = WorkOrderStatus.NEW;
-	private User assignedTo;
+	private User assignedToUser;
+	private Role assignedToRole;
 	private WorkOrder parentWorkOrder = null;
 	private WorkOrderType workOrderType;
 	private Integer itemOrder = 0;
@@ -53,7 +56,7 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribu
 	
 	@Override
 	public WorkOrder hydrate(String id) {
-		return Context.getService(IWorkOrderService.class).getById(Integer.parseInt(id));
+		return Context.getService(IWorkOrderDataService.class).getById(Integer.parseInt(id));
 	}
 
 	@Override
@@ -95,12 +98,20 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribu
 		this.status = status;
 	}
 
-	public User getAssignedTo() {
-		return assignedTo;
+	public User getAssignedToUser() {
+		return assignedToUser;
 	}
 
-	public void setAssignedTo(User user) {
-		this.assignedTo = user;
+	public void setAssignedToUser(User user) {
+		this.assignedToUser = user;
+	}
+
+	public Role getAssignedToRole() {
+		return assignedToRole;
+	}
+
+	public void setAssignedToRole(Role role) {
+		this.assignedToRole = role;
 	}
 
 	public List<WorkOrder> getWorkOrders() {

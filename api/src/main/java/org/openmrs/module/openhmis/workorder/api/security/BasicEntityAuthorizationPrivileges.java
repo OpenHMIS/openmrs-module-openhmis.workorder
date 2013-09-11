@@ -15,21 +15,21 @@
 package org.openmrs.module.openhmis.workorder.api.security;
 
 import org.openmrs.module.openhmis.commons.api.entity.security.IObjectAuthorizationPrivileges;
-import org.openmrs.module.openhmis.workorder.api.util.WorkOrderPrivilegeConstants;
+import org.openmrs.module.openhmis.workorder.api.util.PrivilegeConstants;
 
 public class BasicEntityAuthorizationPrivileges implements IObjectAuthorizationPrivileges {
 	@Override
 	public String getSavePrivilege() {
-		return WorkOrderPrivilegeConstants.MANAGE_METADATA;
+		return PrivilegeConstants.MANAGE_METADATA;
 	}
 
 	@Override
 	public String getPurgePrivilege() {
-		return WorkOrderPrivilegeConstants.PURGE_METADATA;
+		return PrivilegeConstants.PURGE_METADATA;
 	}
 
 	@Override
 	public String getGetPrivilege() {
-		return WorkOrderPrivilegeConstants.VIEW_METADATA;
+		return PrivilegeConstants.VIEW_METADATA;
 	}
 }

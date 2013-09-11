@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.openhmis.workorder.api.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
@@ -29,14 +30,10 @@ public class WorkOrderHelper {
 	public static WorkOrderAttribute getAttributeByTypeName(WorkOrder workOrder, Class clazz) {
 		IWorkOrderAttributeTypeDataService service = Context.getService(IWorkOrderAttributeTypeDataService.class);
 
-		WorkOrderAttributeType type = service.getByClass(clazz.getName(), workOrder.getWorkOrderType());
-
+		WorkOrderAttributeType type = service.getByClass(workOrder.getWorkOrderType(), clazz);
 		Set<WorkOrderAttribute> attrs = workOrder.getActiveAttributes(type);
-		if (attrs.size() > 0) {
-			return attrs.toArray(new WorkOrderAttribute[1])[0];
-		} else {
-			return null;
-		}
+
+		return attrs.size() > 0 ? (WorkOrderAttribute)CollectionUtils.get(attrs, 0) : null;
 	}
 
 	/**

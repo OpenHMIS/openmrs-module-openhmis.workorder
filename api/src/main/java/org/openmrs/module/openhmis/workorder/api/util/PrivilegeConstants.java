@@ -15,7 +15,7 @@ package org.openmrs.module.openhmis.workorder.api.util;
 
 import org.openmrs.annotation.AddOnStartup;
 
-public class WorkOrderPrivilegeConstants {
+public class PrivilegeConstants {
 
 	@AddOnStartup(description = "Able to add/edit/delete work order module metadata")
 	public static final String MANAGE_METADATA = "Manage Cashier Metadata";
