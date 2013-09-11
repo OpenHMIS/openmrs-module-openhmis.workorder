@@ -75,10 +75,16 @@ public class WorkOrderModuleActivator implements ModuleActivator {
 	}
 	
 	private void setupDefaultWorkOrderType() {
-		MessageSourceService messages = Context.getMessageSourceService();
-		WorkOrderType workOrderType = new WorkOrderType();
-		workOrderType.setName(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeName"));
-		workOrderType.setDescription(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeDescription"));
-		WorkOrderUtil.ensureWorkOrderType(workOrderType, new GlobalProperty(ModuleConstants.DEFAULT_WORKORDER_TYPE_UUID_PROPERTY, null));
+		GlobalProperty defaultProperty = new GlobalProperty(ModuleConstants.DEFAULT_WORKORDER_TYPE_UUID_PROPERTY, null);
+
+		if (!WorkOrderUtil.checkWorkOrderType(defaultProperty)) {
+			MessageSourceService messages = Context.getMessageSourceService();
+
+			WorkOrderType workOrderType = new WorkOrderType();
+			workOrderType.setName(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeName"));
+			workOrderType.setDescription(messages.getMessage("openhmis.workorder.defaultWorkOrderTypeDescription"));
+
+			WorkOrderUtil.ensureWorkOrderType(workOrderType, defaultProperty);
+		}
 	}
 }

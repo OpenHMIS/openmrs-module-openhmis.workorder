@@ -13,13 +13,6 @@
  */
 package org.openmrs.module.openhmis.workorder.api.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -33,6 +26,8 @@ import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
+
+import java.util.*;
 
 public class WorkOrderServiceImpl
 		extends BaseMetadataDataServiceImpl<WorkOrder>
@@ -97,13 +92,13 @@ public class WorkOrderServiceImpl
 	}
 
 	@Override
-	public String getJsModulePathByWorkOrderTypeUuid(String workOrderTypeUuid) {
+	public String getModuleJavascript(String workOrderTypeUuid) {
 		return workOrderTypeToJsModulePathMap.get(workOrderTypeUuid);
 	}
 
 	@Override
-	public void registerCustomWorkOrderTypeJsModule(String workOrderTypeUuid,
-			String modulePath) {
+	public void registerModuleJavascript(String workOrderTypeUuid,
+	                                     String modulePath) {
 		if (StringUtils.isEmpty(workOrderTypeUuid) || StringUtils.isEmpty(modulePath))
 			return;
 		workOrderTypeToJsModulePathMap.put(workOrderTypeUuid, modulePath);

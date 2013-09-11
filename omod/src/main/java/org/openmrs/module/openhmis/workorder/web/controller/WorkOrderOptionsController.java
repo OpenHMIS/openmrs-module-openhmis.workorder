@@ -30,6 +30,6 @@ public class WorkOrderOptionsController {
 	@ResponseBody
 	public String getModuleNamespace(
 			@RequestParam(value = "jsModuleForWorkOrderType", required = true) String workOrderTypeUuid) {
-		return Context.getService(IWorkOrderService.class).getJsModulePathByWorkOrderTypeUuid(workOrderTypeUuid);
+		return Context.getService(IWorkOrderService.class).getModuleJavascript(workOrderTypeUuid);
 	}
 }
