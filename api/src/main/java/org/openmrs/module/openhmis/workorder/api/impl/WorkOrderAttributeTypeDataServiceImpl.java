@@ -16,8 +16,8 @@ package org.openmrs.module.openhmis.workorder.api.impl;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.APIException;
-import org.openmrs.module.openhmis.commons.api.entity.impl.BaseMetadataDataServiceImpl;
-import org.openmrs.module.openhmis.commons.api.entity.security.IMetadataAuthorizationPrivileges;
+import org.openmrs.module.openhmis.commons.api.entity.impl.BaseObjectDataServiceImpl;
+import org.openmrs.module.openhmis.commons.api.entity.security.IObjectAuthorizationPrivileges;
 import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
@@ -27,11 +27,11 @@ import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
 public class WorkOrderAttributeTypeDataServiceImpl extends
-		BaseMetadataDataServiceImpl<WorkOrderAttributeType> implements
+		BaseObjectDataServiceImpl<WorkOrderAttributeType, IObjectAuthorizationPrivileges> implements
 		IWorkOrderAttributeTypeDataService {
 
 	@Override
-	protected IMetadataAuthorizationPrivileges getPrivileges() {
+	protected IObjectAuthorizationPrivileges getPrivileges() {
 		return null;
 	}
 
@@ -41,11 +41,17 @@ public class WorkOrderAttributeTypeDataServiceImpl extends
 
 	@Override
 	public List<WorkOrderAttributeType> findByClass(final WorkOrderType type, final Class attributeClass) {
+		if (type == null) {
+			throw new NullPointerException("The work order type must be defined.");
+		}
+		if (attributeClass == null) {
+			throw new NullPointerException("The attribute class must be defined.");
+		}
+
 		return executeCriteria(getEntityClass(), null, new Action1<Criteria>() {
 			@Override
 			public void apply(Criteria criteria) {
-				if (type != null && type.getId() != null)
-					criteria.add(Restrictions.eq("owner", type));
+				criteria.add(Restrictions.eq("owner", type));
 				criteria.add(Restrictions.eq("format", attributeClass.getName()));
 				criteria.add(Restrictions.eq("retired", false));
 			}

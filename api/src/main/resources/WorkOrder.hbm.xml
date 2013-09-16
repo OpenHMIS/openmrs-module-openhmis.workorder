@@ -16,7 +16,7 @@
 		<!-- Access the Parent through the field because the parent property updates the children and will
 		    cause problems when executed while hibernate is loading the model. -->
 		<many-to-one name="parentWorkOrder" class="WorkOrder" column="parent_id"  access="field" />
-		<many-to-one name="workOrderType" class="WorkOrderType" column="workorder_type_id" />
+		<many-to-one name="instanceType" class="WorkOrderType" column="workorder_type_id" />
 		<list name="workOrders" lazy="false" inverse="true" batch-size="100"
 		     cascade="all-delete-orphan">
 			<key column="parent_id" />
@@ -34,7 +34,9 @@
 		</property>
 
 		<!-- Associations -->
-		<many-to-one name="assignedTo" class="org.openmrs.User" column="assigned_to" />
+		<many-to-one name="assignedToUser" class="org.openmrs.User" column="assigned_to_user" />
+		<many-to-one name="assignedToRole" class="org.openmrs.Role" column="assigned_to_role" />
+
 		<set name="attributes" lazy="true" inverse="true" batch-size="100"
 		     cascade="all-delete-orphan" order-by="retired asc">
 			<key column="workorder_id" />

@@ -30,7 +30,7 @@ public class WorkOrderHelper {
 	public static WorkOrderAttribute getAttributeByType(WorkOrder workOrder, Class clazz) {
 		IWorkOrderAttributeTypeDataService service = Context.getService(IWorkOrderAttributeTypeDataService.class);
 
-		WorkOrderAttributeType type = service.getByClass(workOrder.getWorkOrderType(), clazz);
+		WorkOrderAttributeType type = service.getByClass(workOrder.getInstanceType(), clazz);
 		Set<WorkOrderAttribute> attrs = workOrder.getActiveAttributes(type);
 
 		return attrs.size() > 0 ? (WorkOrderAttribute)CollectionUtils.get(attrs, 0) : null;

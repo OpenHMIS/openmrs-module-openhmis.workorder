@@ -31,6 +31,14 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list merge="true">
+				<value>org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService</value>
+				<ref bean="workOrderDataService" />
+			</list>
+		</property>
+	</bean>
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
 				<value>org.openmrs.module.openhmis.workorder.api.IWorkOrderTypeDataService</value>
 				<ref bean="workOrderTypeDataService" />
 			</list>
@@ -58,7 +66,15 @@
 	<bean id="workOrderService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="target">
-			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderServiceImpl">
+			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderServiceImpl" />
+		</property>
+		<property name="preInterceptors" ref="serviceInterceptors" />
+		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
+	</bean>
+	<bean id="workOrderDataService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="target">
+			<bean class="org.openmrs.module.openhmis.workorder.api.impl.WorkOrderDataServiceImpl">
 				<property name="repository" ref="genericRepository" />
 			</bean>
 		</property>

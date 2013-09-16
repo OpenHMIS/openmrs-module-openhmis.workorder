@@ -13,16 +13,13 @@
  */
 package org.openmrs.module.openhmis.workorder.api;
 
-import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 
 import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
-public interface IWorkOrderAttributeTypeDataService
-		extends IMetadataDataService<WorkOrderAttributeType> {
-	
+public interface IWorkOrderAttributeTypeDataService {
 	/**
 	 * Finds any {@link WorkOrderType} {@link WorkOrderAttributeType}s with the specified class.
 	 * @param type The work order type

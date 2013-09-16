@@ -3,12 +3,14 @@ package org.openmrs.module.openhmis.workorder.api;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.DrugOrder;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
 public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSensitiveTest {
@@ -36,7 +38,7 @@ public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSen
 	 * @verifies throw NullPointerException if attributeClass is null
 	 * @see IWorkOrderAttributeTypeDataService#findByClass(org.openmrs.module.openhmis.workorder.api.model.WorkOrderType, Class)
 	 */
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void findByClass_shouldThrowNullPointerExceptionIfAttributeClassIsNull() throws Exception {
 		WorkOrderType type = typeDataService.getById(0);
 
@@ -76,30 +78,30 @@ public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSen
 	 * @verifies throw NullPointerException if type is null
 	 * @see IWorkOrderAttributeTypeDataService#getByClass(org.openmrs.module.openhmis.workorder.api.model.WorkOrderType, Class)
 	 */
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void getByClass_shouldThrowNullPointerExceptionIfTypeIsNull() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		service.getByClass(null, Location.class);
 	}
 
 	/**
 	 * @verifies throw NullPointerException if attributeClass is null
 	 * @see IWorkOrderAttributeTypeDataService#getByClass(org.openmrs.module.openhmis.workorder.api.model.WorkOrderType, Class)
 	 */
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void getByClass_shouldThrowNullPointerExceptionIfAttributeClassIsNull() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		WorkOrderType type = typeDataService.getById(0);
+		service.getByClass(type, null);
 	}
 
 	/**
 	 * @verifies throw NonUniqueResultException if the type has multiple attributes with the specified class
 	 * @see IWorkOrderAttributeTypeDataService#getByClass(org.openmrs.module.openhmis.workorder.api.model.WorkOrderType, Class)
 	 */
-	@Test
+	@Test(expected = NonUniqueResultException.class)
 	public void getByClass_shouldThrowNonUniqueResultExceptionIfTheTypeHasMultipleAttributesWithTheSpecifiedClass() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		WorkOrderType type = typeDataService.getById(0);
+
+		service.getByClass(type, DrugOrder.class);
 	}
 
 	/**
@@ -108,8 +110,10 @@ public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSen
 	 */
 	@Test
 	public void getByClass_shouldReturnNullIfNoAttributeIsFound() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		WorkOrderType type = typeDataService.getById(0);
+		WorkOrderAttributeType attributeType = service.getByClass(type, TestConstants.class);
+
+		Assert.assertNull(attributeType);
 	}
 
 	/**
@@ -118,7 +122,14 @@ public class IWorkOrderAttributeTypeDataServiceTest extends BaseModuleContextSen
 	 */
 	@Test
 	public void getByClass_shouldReturnTheAttributeTypeForTheSpecifiedType() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		WorkOrderType type0 = typeDataService.getById(0);
+		WorkOrderType type1 = typeDataService.getById(1);
+
+		WorkOrderAttributeType attributeType0 = service.getByClass(type0, Location.class);
+		WorkOrderAttributeType attributeType1 = service.getByClass(type1, Location.class);
+
+		Assert.assertNotNull(attributeType0);
+		Assert.assertNotNull(attributeType1);
+		Assert.assertFalse(attributeType0.getId().equals(attributeType1.getId()));
 	}
 }

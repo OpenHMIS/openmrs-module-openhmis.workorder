@@ -1,11 +1,31 @@
 <dataset>
-	<workorder_workorder workorder_id="0" name="Test order" description="test description" status="NEW" item_order="0" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
-	
-	<workorder_workorder_type workorder_type_id="0" name="Test Type" description="Fake type" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
+	<workorder_workorder workorder_id="0" name="Test order" description="test description" status="NEW" item_order="0"
+	                     creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
+
+	<workorder_workorder_type workorder_type_id="0" name="Test Type" description="Fake type"
+	                          creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
+	<workorder_workorder_type workorder_type_id="1" name="Test Type 2" description="Fake type"
+	                          creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF8014111EC56510003" />
+	<workorder_workorder_type workorder_type_id="2" name="Test Type 3" description="Fake type"
+	                          creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF80141120DBA620005" />
 
 	<workorder_workorder_attribute_type workorder_attribute_type_id="0" name="Location" description="Location attribute"
-		workorder_type_id="0" format="org.openmrs.Location" required="0" attribute_order="0" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
-	
-	<workorder_workorder_attribute workorder_attribute_id="0" workorder_id="0" attribute_type_id="0"
-	value="0" creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001"/>
+		workorder_type_id="0" format="org.openmrs.Location" required="0" attribute_order="0"
+		creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
+	<workorder_workorder_attribute_type workorder_attribute_type_id="1" name="Order" description="Order attribute"
+	                                    workorder_type_id="0" format="org.openmrs.Order" required="0" attribute_order="1"
+	                                    creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF8014111CBF89B0000" />
+	<workorder_workorder_attribute_type workorder_attribute_type_id="2" name="DrugOrder" description="Drug Order Attribute"
+	                                    workorder_type_id="0" format="org.openmrs.DrugOrder" required="0" attribute_order="2"
+	                                    creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF8014111CD8B900001" />
+	<workorder_workorder_attribute_type workorder_attribute_type_id="3" name="DrugOrder2" description="Drug Order Attribute 2"
+	                                    workorder_type_id="0" format="org.openmrs.DrugOrder" required="0" attribute_order="3"
+	                                    creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF8014111DB32A70002" />
+
+	<workorder_workorder_attribute_type workorder_attribute_type_id="4" name="Location" description="Location Attribute"
+	                                    workorder_type_id="1" format="org.openmrs.Location" required="0" attribute_order="0"
+	                                    creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF8014111ED28090004" />
+
+	<workorder_workorder_attribute workorder_attribute_id="0" workorder_id="0" attribute_type_id="0" value="0"
+	                               creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001"/>
 </dataset>

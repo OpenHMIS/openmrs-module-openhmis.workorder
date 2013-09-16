@@ -41,7 +41,8 @@ public interface IWorkOrderService {
 	 * Gets the custom javascript file for the specified work order type.
 	 * @param typeUuid The work order type UUID
 	 * @return The javascript file path or {@code null} if one has not been registered
-	 * @should throw InvalidParameterException if type uuid is null or empty
+	 * @should throw InvalidParameterException if type uuid is null
+	 * @should throw InvalidParameterException if type uuid is empty
 	 * @should return null if no javascript file has been registered for the specified type
 	 * @should return the javascript for only the specified type
 	 */

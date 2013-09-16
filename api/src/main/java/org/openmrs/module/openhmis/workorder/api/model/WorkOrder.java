@@ -24,15 +24,15 @@ import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 import java.util.LinkedList;
 import java.util.List;
 
-public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribute>
+public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderType, WorkOrderAttribute>
 	implements Attributable<WorkOrder> {
+	public static final long serialVersionUID = 0L;
 
 	private Integer workOrderId;
 	private WorkOrderStatus status = WorkOrderStatus.NEW;
 	private User assignedToUser;
 	private Role assignedToRole;
 	private WorkOrder parentWorkOrder = null;
-	private WorkOrderType workOrderType;
 	private Integer itemOrder = 0;
 
 	private List<WorkOrder> workOrders;
@@ -137,13 +137,7 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderAttribu
 		}
 		parentWorkOrder = parent;
 	}
-	public WorkOrderType getWorkOrderType() {
-		return workOrderType;
-	}
 
-	public void setWorkOrderType(WorkOrderType workOrderType) {
-		this.workOrderType = workOrderType;
-	}
 	public Integer getItemOrder() {
 		return itemOrder;
 	}
