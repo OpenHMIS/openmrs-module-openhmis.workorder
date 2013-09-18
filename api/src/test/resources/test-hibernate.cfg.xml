@@ -5,7 +5,16 @@
 
 <hibernate-configuration>
 	<session-factory>
+		<!-- Uncomment for hibernate debugging
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		<property name="use_sql_comments">true</property>
+		-->
+
 		<mapping resource="WorkOrder.hbm.xml" />
+
+		<!-- Import LazyRole mapping from commons -->
+		<mapping resource="LazyRole.hbm.xml" />
 
 		<event type="pre-insert">
 			<listener class="org.openmrs.module.openhmis.workorder.api.event.ChangeEventListener" />

@@ -18,7 +18,9 @@ import org.openmrs.Attributable;
 import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.openhmis.commons.api.Utility;
 import org.openmrs.module.openhmis.commons.api.entity.model.BaseCustomizableInstanceMetadata;
+import org.openmrs.module.openhmis.commons.api.entity.model.LazyRole;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 
 import java.util.LinkedList;
@@ -111,7 +113,12 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderType, W
 	}
 
 	public void setAssignedToRole(Role role) {
-		this.assignedToRole = role;
+//		LazyRole roleC = Utility.as(LazyRole.class, role);
+//		if (roleC == null) {
+//			roleC = new LazyRole(role);
+//		}
+
+		this.assignedToRole = role;//C;
 	}
 
 	public List<WorkOrder> getWorkOrders() {

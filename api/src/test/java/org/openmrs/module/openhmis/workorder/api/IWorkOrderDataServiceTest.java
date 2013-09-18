@@ -11,6 +11,8 @@ public class IWorkOrderDataServiceTest extends IMetadataDataServiceTest<IWorkOrd
 	@Override
 	public void before() throws Exception {
 		super.before();
+
+		executeDataSet(TestConstants.CORE_DATASET);
 		executeDataSet(DATASET);
 	}
 	
@@ -27,7 +29,7 @@ public class IWorkOrderDataServiceTest extends IMetadataDataServiceTest<IWorkOrd
 
 	@Override
 	protected int getTestEntityCount() {
-		return 1;
+		return 3;
 	}
 
 	@Override
