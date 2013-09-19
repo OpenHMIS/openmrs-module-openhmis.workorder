@@ -15,8 +15,10 @@ package org.openmrs.module.openhmis.workorder.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.OpenmrsObject;
+import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
@@ -27,12 +29,9 @@ import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.openmrs.module.openhmis.workorder.api.search.WorkOrderSearch;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class WorkOrderDataServiceImpl
 		extends BaseMetadataDataServiceImpl<WorkOrder>
@@ -69,9 +68,14 @@ public class WorkOrderDataServiceImpl
 	@Override
 	protected void validate(WorkOrder object) throws APIException {
 		if ((object.getAssignedToUser() == null && object.getAssignedToRole() == null) &&
-			(object.getStatus() == WorkOrderStatus.COMPLETE || object.getStatus() == WorkOrderStatus.CANCELLED)) {
+			(object.getStatus() == WorkOrderStatus.COMPLETED || object.getStatus() == WorkOrderStatus.CANCELLED)) {
 			throw new APIException("A work order must be assigned to a user/role to be saved as " + object.getStatus());
 		}
+	}
+
+	@Override
+	protected Order[] getDefaultSort() {
+		return new Order[] { Order.desc("dateCreated") };
 	}
 
 	/**
@@ -95,11 +99,55 @@ public class WorkOrderDataServiceImpl
 					criteria.add(Restrictions.eq("retired", false));
 				}
 			}
-		});
+		}, getDefaultSort());
 	}
 
 	@Override
-	public List<WorkOrder> getUserWorkOrders(User user, WorkOrderStatus status, PagingInfo pagingInfo) {
-		throw new NotImplementedException();
+	public List<WorkOrder> getUserWorkOrders(final User user, final WorkOrderStatus status, PagingInfo pagingInfo) {
+		if (user == null) {
+			throw new NullPointerException("The user must be defined.");
+		}
+
+		final Set<Role> roles = user.getAllRoles();
+
+		return executeCriteria(WorkOrder.class, pagingInfo, new Action1<Criteria>() {
+			@Override
+			public void apply(Criteria criteria) {
+				if (status != null) {
+					criteria.add(Restrictions.eq("status", status));
+				}
+
+				if (roles != null && roles.size() > 0) {
+					criteria.add(Restrictions.or(
+							Restrictions.eq("assignedToUser", user),
+							Restrictions.in("assignedToRole", roles)
+					));
+				} else {
+					criteria.add(Restrictions.eq("assignedToUser", user));
+				}
+			}
+		}, getDefaultSort());
+	}
+
+	@Override
+	public List<WorkOrder> findWorkOrders(WorkOrderSearch search) {
+		return findWorkOrders(search, null);
+	}
+
+	@Override
+	public List<WorkOrder> findWorkOrders(final WorkOrderSearch search, PagingInfo paging) {
+		if (search == null) {
+			throw new NullPointerException("The work order search must be defined.");
+		}
+		if (search.getTemplate() == null) {
+			throw new NullPointerException("The work order search template must be defined.");
+		}
+
+		return executeCriteria(WorkOrder.class, paging, new Action1<Criteria>() {
+			@Override
+			public void apply(Criteria criteria) {
+				search.updateCriteria(criteria);
+			}
+		}, getDefaultSort());
 	}
 }

@@ -14,10 +14,14 @@
 package org.openmrs.module.openhmis.workorder.api;
 
 import org.openmrs.User;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.module.openhmis.commons.api.PagingInfo;
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
+import org.openmrs.module.openhmis.workorder.api.search.WorkOrderSearch;
+import org.openmrs.module.openhmis.workorder.api.util.PrivilegeConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,5 +45,36 @@ public interface IWorkOrderDataService extends IMetadataDataService<WorkOrder> {
 	 * @should throw NullPointerException when user is null
 	 * @should return all work orders for user when status is null
 	 */
-	public List<WorkOrder> getUserWorkOrders(final User user, WorkOrderStatus status, PagingInfo paging);
+	@Transactional(readOnly = true)
+	@Authorized({PrivilegeConstants.VIEW_METADATA})
+	List<WorkOrder> getUserWorkOrders(User user, WorkOrderStatus status, PagingInfo paging);
+
+	/**
+	 * Finds all {@link WorkOrder}s using the specified {@link WorkOrderSearch} settings.
+	 * @param workOrderSearch The work order search settings.
+	 * @return The work orders found or an empty list if no work orders were found.
+	 */
+	@Transactional(readOnly = true)
+	@Authorized({PrivilegeConstants.VIEW_METADATA})
+	List<WorkOrder> findWorkOrders(WorkOrderSearch workOrderSearch);
+
+	/**
+	 * Finds all {@link WorkOrder}s using the specified {@link WorkOrderSearch} settings.
+	 * @param workOrderSearch The work order search settings.
+	 * @param paging The paging information
+	 * @return The work orders found or an empty list if no work orders were found.
+	 * @should throw NullPointerException if search object is null
+	 * @should throw NullPointerException if search object template is null
+	 * @should return empty list if not results are found
+	 * @should return work orders filtered by instance type
+	 * @should return work orders filtered by status
+	 * @should return work orders filtered by assigned to user
+	 * @should return work orders filtered by assigned to role
+	 * @should return work orders filtered by parent work order
+	 * @should return all results if paging is null
+	 * @should return paged results of paging is specified
+	 */
+	@Transactional(readOnly = true)
+	@Authorized({PrivilegeConstants.VIEW_METADATA})
+	List<WorkOrder> findWorkOrders(WorkOrderSearch workOrderSearch, PagingInfo paging);
 }

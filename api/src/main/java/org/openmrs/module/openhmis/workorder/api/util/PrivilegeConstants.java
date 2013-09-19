@@ -18,11 +18,11 @@ import org.openmrs.annotation.AddOnStartup;
 public class PrivilegeConstants {
 
 	@AddOnStartup(description = "Able to add/edit/delete work order module metadata")
-	public static final String MANAGE_METADATA = "Manage Cashier Metadata";
+	public static final String MANAGE_METADATA = "Manage Work Order Metadata";
 
 	@AddOnStartup(description = "Able to view work order module metadata")
-	public static final String VIEW_METADATA = "View Cashier Metadata";
+	public static final String VIEW_METADATA = "View Work Order Metadata";
 
 	@AddOnStartup(description = "Able to purge work order module metadata")
-	public static final String PURGE_METADATA = "Purge Cashier Metadata";
+	public static final String PURGE_METADATA = "Purge Work Order Metadata";
 }

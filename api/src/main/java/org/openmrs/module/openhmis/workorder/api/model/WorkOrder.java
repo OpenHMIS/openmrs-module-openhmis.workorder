@@ -31,10 +31,10 @@ public class WorkOrder extends BaseCustomizableInstanceMetadata<WorkOrderType, W
 	public static final long serialVersionUID = 0L;
 
 	private Integer workOrderId;
-	private WorkOrderStatus status = WorkOrderStatus.NEW;
+	protected WorkOrderStatus status = WorkOrderStatus.NEW;
 	private User assignedToUser;
 	private Role assignedToRole;
-	private WorkOrder parentWorkOrder = null;
+	protected WorkOrder parentWorkOrder = null;
 	private Integer itemOrder = 0;
 
 	private List<WorkOrder> workOrders;

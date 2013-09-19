@@ -11,20 +11,20 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.openhmis.workorder.api.model;
+package org.openmrs.module.openhmis.workorder.api.search;
 
-public enum WorkOrderStatus {
-	NEW(0), IN_PROGRESS(1), COMPLETED(2), CANCELLED(3);
+import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 
-	private int value;
+public class WorkOrderTemplate extends WorkOrder {
+	public WorkOrderTemplate() {
+		super();
 
-	private WorkOrderStatus() { }
-
-	private WorkOrderStatus(int value) {
-		this.value = value;
+		// Set the status back to null as it is set to NEW by default
+		this.status = null;
 	}
 
-	public int getValue() {
-		return value;
+	@Override
+	public void setParentWorkOrder(WorkOrder parent) {
+		this.parentWorkOrder = parent;
 	}
 }
