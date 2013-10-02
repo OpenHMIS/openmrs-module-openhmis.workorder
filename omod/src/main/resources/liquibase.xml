@@ -178,8 +178,8 @@
 		                         deferrable="false" initiallyDeferred="false" />
 		                         
 	</changeSet>
-	<changeSet id="openhmis.workorder-v1.0-1" author="ibewes">
-		<renameColumn tableName="workorder_workorder" oldColumnName="assigned_to" newColumnName="assigned_to_user" />
+	<changeSet id="openhmis.workorder-v1.0-2" author="ibewes">
+		<renameColumn tableName="workorder_workorder" oldColumnName="assigned_to" newColumnName="assigned_to_user" columnDataType="int" />
 
 		<addColumn tableName="workorder_workorder">
 			<column name="assigned_to_role" type="varchar(50)" />
