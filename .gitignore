@@ -29,6 +29,7 @@
 .idea/dictionaries/*
 .idea/modules.xml
 .idea/vcs.xml
+.idea/compiler.xml
 
 # building
 target
