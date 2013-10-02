@@ -1,6 +1,8 @@
 package org.openmrs.module.openhmis.workorder.api;
 
+import org.junit.Assert;
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataServiceTest;
+import org.openmrs.module.openhmis.commons.api.f.Action2;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
 
@@ -52,6 +54,16 @@ public class IWorkOrderTypeDataServiceTest extends IMetadataDataServiceTest<IWor
 	protected void assertEntity(WorkOrderType expected, WorkOrderType actual) {
 		super.assertEntity(expected, actual);
 
+		assertCollection(expected.getAttributeTypes(), actual.getAttributeTypes(), new Action2<WorkOrderAttributeType, WorkOrderAttributeType>() {
+			@Override
+			public void apply(WorkOrderAttributeType expectedAttribute, WorkOrderAttributeType actualAttribute) {
+				assertOpenmrsMetadata(expectedAttribute, actualAttribute);
 
+				Assert.assertEquals(expectedAttribute.getFormat(), actualAttribute.getFormat());
+				Assert.assertEquals(expectedAttribute.getForeignKey(), actualAttribute.getForeignKey());
+				Assert.assertEquals(expectedAttribute.getRegExp(), actualAttribute.getRegExp());
+				Assert.assertEquals(expectedAttribute.getRequired(), actualAttribute.getRequired());
+			}
+		});
 	}
 }

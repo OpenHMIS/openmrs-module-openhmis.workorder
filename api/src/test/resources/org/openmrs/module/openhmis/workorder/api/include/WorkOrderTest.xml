@@ -9,11 +9,11 @@
 	                     assigned_to_user="1" workorder_type_id="2"
 	                     creator="1" date_created="2012-01-02 00:00:00.0" retired="false" uuid="FF808181412624E101412624F94F0002" />
 
-	<workorder_workorder_type workorder_type_id="0" name="Test Type" description="Fake type"
+	<workorder_workorder_type workorder_type_id="0" name="Test Type 1" description="Fake type 1"
 	                          creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="4028814B399565AA013995675A7E0001" />
-	<workorder_workorder_type workorder_type_id="1" name="Test Type 2" description="Fake type"
+	<workorder_workorder_type workorder_type_id="1" name="Test Type 2" description="Fake type 2"
 	                          creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF8014111EC56510003" />
-	<workorder_workorder_type workorder_type_id="2" name="Test Type 3" description="Fake type"
+	<workorder_workorder_type workorder_type_id="2" name="Test Type 3" description="Fake type 3"
 	                          creator="1" date_created="2012-01-01 00:00:00.0" retired="false" uuid="FF8081814111CBF80141120DBA620005" />
 
 	<workorder_workorder_attribute_type workorder_attribute_type_id="0" name="Location" description="Location attribute"
