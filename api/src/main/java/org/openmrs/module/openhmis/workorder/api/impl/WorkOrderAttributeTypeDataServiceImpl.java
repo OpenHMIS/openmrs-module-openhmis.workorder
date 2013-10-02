@@ -16,8 +16,8 @@ package org.openmrs.module.openhmis.workorder.api.impl;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.APIException;
-import org.openmrs.module.openhmis.commons.api.entity.impl.BaseObjectDataServiceImpl;
-import org.openmrs.module.openhmis.commons.api.entity.security.IObjectAuthorizationPrivileges;
+import org.openmrs.module.openhmis.commons.api.entity.impl.BaseMetadataDataServiceImpl;
+import org.openmrs.module.openhmis.commons.api.entity.security.IMetadataAuthorizationPrivileges;
 import org.openmrs.module.openhmis.commons.api.f.Action1;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
@@ -27,11 +27,11 @@ import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
 public class WorkOrderAttributeTypeDataServiceImpl extends
-		BaseObjectDataServiceImpl<WorkOrderAttributeType, IObjectAuthorizationPrivileges> implements
+		BaseMetadataDataServiceImpl<WorkOrderAttributeType> implements
 		IWorkOrderAttributeTypeDataService {
 
 	@Override
-	protected IObjectAuthorizationPrivileges getPrivileges() {
+	protected IMetadataAuthorizationPrivileges getPrivileges() {
 		return null;
 	}
 
