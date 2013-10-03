@@ -20,7 +20,7 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 	}
 
 	/**
-	 * @see IWorkOrderEventService#fireStatusChanged(IWorkOrder)
+	 * @see IWorkOrderEventService#fireStatusChanged(WorkOrder, WorkOrderStatus)
 	 * @verifies fire registered handlers
 	 */
 	@Test
@@ -33,7 +33,7 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 	}
 
 	/**
-	 * @see IWorkOrderEventService#fireStatusChanged(IWorkOrder)
+	 * @see IWorkOrderEventService#fireStatusChanged(WorkOrder, WorkOrderStatus)
 	 * @verifies not fire unregistered handlers
 	 */
 	@Test
@@ -44,5 +44,61 @@ public class IWorkOrderEventServiceTest extends BaseModuleContextSensitiveTest {
 		WorkOrder workOrder = new WorkOrder();
 		eventService.fireStatusChanged(workOrder, WorkOrderStatus.NEW);
 		Assert.assertNull(testAction.getTestValue());		
+	}
+
+	/**
+	 * @verifies register the handler to receive status change events
+	 * @see IWorkOrderEventService#registerWorkOrderStatusHandler(WorkOrderStatusAction)
+	 */
+	@Test
+	public void registerWorkOrderStatusHandler_shouldRegisterTheHandlerToReceiveStatusChangeEvents() throws Exception {
+		StatusActionTester tester = new StatusActionTester();
+		eventService.registerWorkOrderStatusHandler(tester);
+
+		WorkOrder workOrder = new WorkOrder();
+		eventService.fireStatusChanged(workOrder, WorkOrderStatus.NEW);
+		Assert.assertEquals(WorkOrderStatus.NEW, tester.getTestValue());
+	}
+
+	/**
+	 * @verifies not fail if handler has already been added
+	 * @see IWorkOrderEventService#registerWorkOrderStatusHandler(WorkOrderStatusAction)
+	 */
+	@Test
+	public void registerWorkOrderStatusHandler_shouldNotFailIfHandlerHasAlreadyBeenAdded() throws Exception {
+		StatusActionTester tester = new StatusActionTester();
+
+		eventService.registerWorkOrderStatusHandler(tester);
+		eventService.registerWorkOrderStatusHandler(tester);
+
+		WorkOrder workOrder = new WorkOrder();
+		eventService.fireStatusChanged(workOrder, WorkOrderStatus.NEW);
+		Assert.assertEquals(WorkOrderStatus.NEW, tester.getTestValue());
+	}
+
+	/**
+	 * @verifies unregister the handler
+	 * @see IWorkOrderEventService#unregisterWorkOrderStatusHandler(WorkOrderStatusAction)
+	 */
+	@Test
+	public void unregisterWorkOrderStatusHandler_shouldUnregisterTheHandler() throws Exception {
+		StatusActionTester tester = new StatusActionTester();
+
+		eventService.registerWorkOrderStatusHandler(tester);
+		eventService.unregisterWorkOrderStatusHandler(tester);
+
+		WorkOrder workOrder = new WorkOrder();
+		eventService.fireStatusChanged(workOrder, WorkOrderStatus.NEW);
+		Assert.assertNull(tester.getTestValue());
+	}
+
+	/**
+	 * @verifies not fail if the handler has not been registered
+	 * @see IWorkOrderEventService#unregisterWorkOrderStatusHandler(WorkOrderStatusAction)
+	 */
+	@Test
+	public void unregisterWorkOrderStatusHandler_shouldNotFailIfTheHandlerHasNotBeenRegistered() throws Exception {
+		StatusActionTester tester = new StatusActionTester();
+		eventService.unregisterWorkOrderStatusHandler(tester);
 	}
 }

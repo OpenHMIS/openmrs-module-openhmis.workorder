@@ -19,14 +19,24 @@ import org.openmrs.module.openhmis.workorder.api.model.WorkOrderStatus;
 
 public interface IWorkOrderEventService extends OpenmrsService {
 
+	/**
+	 * Registers a {@link WorkOrderStatusAction} event handler.
+	 * @param action The handler to register
+	 * @should register the handler to receive status change events
+	 * @should not fail if handler has already been added
+	 */
 	public void registerWorkOrderStatusHandler(WorkOrderStatusAction action);
-	public void registerWorkOrderStatusHandler(String moduleId, WorkOrderStatusAction action);
-
-	public void unregisterWorkOrderStatusHandler(WorkOrderStatusAction action);
-	public void unregisterWorkOrderStatusHandler(String moduleId, WorkOrderStatusAction action);
 
 	/**
-	 * Fire actions registered for work order status change
+	 * Unregisters a {@link WorkOrderStatusAction} event handler.
+	 * @param action The handler to unregister
+	 * @should unregister the handler
+	 * @should not fail if the handler has not been registered
+	 */
+	public void unregisterWorkOrderStatusHandler(WorkOrderStatusAction action);
+
+	/**
+	 * Fires the status changed event for all handlers registered
 	 * @param workOrder Work Order with changed status
 	 * @should fire registered handlers
 	 * @should not fire unregistered handlers
