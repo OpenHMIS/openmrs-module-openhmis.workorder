@@ -179,19 +179,19 @@
 		                         
 	</changeSet>
 	<changeSet id="openhmis.workorder-v1.0-2" author="ibewes">
+		<dropForeignKeyConstraint constraintName="workorder_workorder_assigned_to_fk" baseTableName="workorder_workorder" />
+		
 		<renameColumn tableName="workorder_workorder" oldColumnName="assigned_to" newColumnName="assigned_to_user" columnDataType="int" />
-
-		<addColumn tableName="workorder_workorder">
-			<column name="assigned_to_role" type="varchar(50)" />
-		</addColumn>
-
-		<dropForeignKeyConstraint constraintName="workorder_workorder_assigned_to_fk"
-		                          baseTableName="workorder_workorder" />
 
 		<addForeignKeyConstraint constraintName="workorder_workorder_assigned_to_user_fk"
 		                         baseTableName="workorder_workorder" baseColumnNames="assigned_to_user"
 		                         referencedTableName="users" referencedColumnNames="user_id"
 		                         deferrable="false" initiallyDeferred="false" />
+
+		<addColumn tableName="workorder_workorder">
+			<column name="assigned_to_role" type="varchar(50)" />
+		</addColumn>
+
 		<addForeignKeyConstraint constraintName="workorder_workorder_assigned_to_role_fk"
 		                         baseTableName="workorder_workorder" baseColumnNames="assigned_to_role"
 		                         referencedTableName="role" referencedColumnNames="role"
