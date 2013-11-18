@@ -16,7 +16,7 @@ package org.openmrs.module.webservices.rest.resource;
 import java.util.List;
 
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
-import org.openmrs.module.openhmis.commons.api.entity.model.InstanceAttributeType;
+import org.openmrs.module.openhmis.commons.api.entity.model.IInstanceAttributeType;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderType;
@@ -54,7 +54,7 @@ public class WorkOrderTypeResource extends
 	
 	@PropertySetter("attributeTypes")
 	public void setAttributeTypes(WorkOrderType instance, List<WorkOrderAttributeType> attributeTypes) {
-		BaseRestDataResource.setCollection(instance, "attributeTypes", InstanceAttributeType.class, attributeTypes);
+		BaseRestDataResource.setCollection(instance, "attributeTypes", IInstanceAttributeType.class, attributeTypes);
 		for (WorkOrderAttributeType type: instance.getAttributeTypes())
 			type.setOwner(instance);
 	}

@@ -14,7 +14,7 @@
 package org.openmrs.module.webservices.rest.resource;
 
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
-import org.openmrs.module.openhmis.commons.api.entity.model.InstanceAttribute;
+import org.openmrs.module.openhmis.commons.api.entity.model.IInstanceAttribute;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrder;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttribute;
@@ -55,7 +55,7 @@ public class WorkOrderResource extends BaseRestMetadataResource<WorkOrder> {
 	
 	@PropertySetter("attributes")
 	public void setAttributes(WorkOrder instance, List<WorkOrderAttribute> attributes) {
-		BaseRestDataResource.setCollection(instance, "attributes", InstanceAttribute.class, attributes);
+		BaseRestDataResource.setCollection(instance, "attributes", IInstanceAttribute.class, attributes);
 		for (WorkOrderAttribute attr: instance.getAttributes())
 			attr.setOwner(instance);
 	}

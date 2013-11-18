@@ -17,7 +17,7 @@ import org.openmrs.annotation.Handler;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.openhmis.commons.api.PagingInfo;
 import org.openmrs.module.openhmis.commons.api.entity.IMetadataDataService;
-import org.openmrs.module.openhmis.commons.api.entity.model.InstanceAttributeType;
+import org.openmrs.module.openhmis.commons.api.entity.model.IInstanceAttributeType;
 import org.openmrs.module.openhmis.workorder.api.IWorkOrderAttributeTypeDataService;
 import org.openmrs.module.openhmis.workorder.api.model.WorkOrderAttributeType;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -37,7 +37,7 @@ import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOp
 @Handler(supports = WorkOrderAttributeType.class)
 public class WorkOrderAttributeTypeResource
 		extends BaseRestMetadataResource<WorkOrderAttributeType>
-		implements DelegatingSubclassHandler<InstanceAttributeType, WorkOrderAttributeType>,
+		implements DelegatingSubclassHandler<IInstanceAttributeType, WorkOrderAttributeType>,
 			org.openmrs.module.webservices.rest.web.resource.api.Resource, Converter<WorkOrderAttributeType> {
 	@Override
 	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
@@ -107,8 +107,8 @@ public class WorkOrderAttributeTypeResource
 	}
 
 	@Override
-	public Class<InstanceAttributeType> getSuperclass() {
-		return InstanceAttributeType.class;
+	public Class<IInstanceAttributeType> getSuperclass() {
+		return IInstanceAttributeType.class;
 		//return ReflectionUtil.getParameterizedTypeFromInterface(getClass(), DelegatingSubclassHandler.class, 0);
 	}
 

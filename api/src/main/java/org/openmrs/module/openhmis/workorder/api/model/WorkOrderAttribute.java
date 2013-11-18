@@ -13,10 +13,10 @@
  */
 package org.openmrs.module.openhmis.workorder.api.model;
 
-import org.openmrs.module.openhmis.commons.api.entity.model.BaseMetadataInstanceAttribute;
+import org.openmrs.module.openhmis.commons.api.entity.model.BaseInstanceAttributeMetadata;
 import org.openmrs.module.openhmis.commons.attribute.AttributeUtil;
 
-public class WorkOrderAttribute extends BaseMetadataInstanceAttribute<WorkOrder, WorkOrderAttributeType> {
+public class WorkOrderAttribute extends BaseInstanceAttributeMetadata<WorkOrder, WorkOrderAttributeType> {
 	public static final long serialVersionUID = 0L;
 
 	public Object getHydratedValue() {
